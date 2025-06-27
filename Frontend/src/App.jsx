@@ -6,6 +6,7 @@ import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import Master from './components/layouts/Master';
 import Error from './components/Pages/Error';
+import Jobcategories from './components/Pages/Jobcategories';
 function App() {
 
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/job-category" element={<Jobcategories/>} />
           <Route path="/*" element={<Error/>} />
         </Route>
       </Routes>
