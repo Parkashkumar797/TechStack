@@ -9,6 +9,7 @@ import Master from './components/layouts/Master';
 import Error from './components/Pages/Error';
 import Jobcategories from './components/Pages/Jobcategories';
 import Popularjob from './components/Pages/Popularjob';
+import { Applyjob } from './components/Pages/Applyjob';
 function App() {
 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/job-category" element={<Jobcategories/>} />
           <Route path="/popular-jobs" element={<Popularjob/>} />
+          <Route path="/apply-job/:id" element={<Applyjob/>} />
           <Route path="/*" element={<Error/>} />
         </Route>
       </Routes>

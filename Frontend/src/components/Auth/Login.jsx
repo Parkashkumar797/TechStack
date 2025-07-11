@@ -13,14 +13,14 @@ function Login() {
                             <label className='block text-lg mb-1' htmlFor=""> Email</label>
                             <input type="text"
                                 placeholder="Email address"
-                                className='w-full border focus:outline-none p-2 text-gray-400 rounded '
+                                className='w-full border focus:outline-none p-2 text-black rounded '
                             />
                         </div>
                         <div>
                             <label className='block text-lg mb-1 ' htmlFor="">Password</label>
                             <input type="password"
                                 placeholder="Password"
-                                className='w-full border focus:outline-none rounded p-2 text-gray-400'
+                                className='w-full border focus:outline-none rounded p-2 text-black'
                             />
                         </div>
                         <div>

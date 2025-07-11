@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function Signup() {
+
+  const [name,setName]=useState('')
+  const [email,setEmail]=useState('')
+  const [pswd,setPswd]=useState('')
+  const [cpswd,setCpswd]=useState('')
   return (
   <>
   <div className="bg-gradient-to-br from-[#0A3A74] via-[#2172C1] to-[#4FB7F3] h-screen flex justify-center items-center ">
