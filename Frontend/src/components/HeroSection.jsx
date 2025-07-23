@@ -1,6 +1,6 @@
 import React from 'react'
-import herosectionImg from "../../assets/images/herosection.png"
-import backGround from '../../assets/images/backGround.png';
+import herosectionImg from "../assets/images/herosection.png";
+import backGround from '../assets/images/backGround.png';
 import { Link } from 'react-router-dom';
 export default function HeroSection() {
     return (

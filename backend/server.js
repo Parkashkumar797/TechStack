@@ -4,12 +4,19 @@ import router from "./routes/userRoute.js";
 import cookieParser from 'cookie-parser';
 import multer from "multer";
 import path from "path";
+import cors from "cors"
 // import auth from "./middleware/authMiddleware.js";
 const app = express();
 const PORT = 5000;
 app.set("view engine", "ejs")
 connectDB();
 // middlewares
+
+    app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true 
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser());

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import tslogoImg from "../../assets/images/tslogo.png"
+import tslogoImg from "../assets/images/tslogo.png"
 import { Link } from "react-router-dom";
 
 export default function Header() {
