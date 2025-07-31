@@ -1,6 +1,6 @@
 import { useState } from "react";
-import tslogoImg from "../assets/images/tslogo.png"
 import { Link } from "react-router-dom";
+import { assets } from "../assets/assets.js";
 
 export default function Header() {
   const [isopen, setIsopen] = useState(false)
@@ -12,7 +12,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex cursor-pointer items-center gap-2">
          
-            <img className="h-8 w-8" src={tslogoImg} alt="logo" />
+            <img className="h-8 w-8" src={assets.tslogo} alt="logo" />
                  <Link to="/">
             <span className="text-2xl text-white font-bold">
               Talent<span className="text-[#FFD700]">Stack</span>

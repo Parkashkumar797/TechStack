@@ -1,19 +1,32 @@
-import mongoose from "mongoose";
+
 import registerUsers from "../models/registerUser.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs";
-import session from "express-session";
+import validator from "validator"
 // register user
 export const registerUser = async (req, res) => {
-    const { name, email, password, confirmpassword } = req.body
-    if (!name || !name || !password) return res.status(404).json({ success: false })
+    const { name, email, password, confirmPassword } = req.body
+    if (!name || !email || !password) return res.status(404).json({ success: false })
     try {
         const existinguser = await registerUsers.findOne({ email })
-        if (existinguser) return res.json({ success: false, message: 'email already exist' })   
+        if (existinguser) return res.json({ success: false, message: 'email already exist' }) 
+            if(!validator.isEmail(email)) {
+                return res.json({success:false,message:"Please enter a valid Email"})
+            }
+            if(password.length<6){
+             return res.json({success:false,message:"please enter a strong"})   
+            }
+            if(password!==confirmPassword){
+                console.log(password);
+                console.log(confirmpassword);
+                
+             return res.json({success:false,message:"Please write a same password "})   
+            }
+
         const hashedpassword = await bcrypt.hash(password, 7)
         const user = new registerUsers({ name, email, password: hashedpassword })
         await user.save()
-        const token = jwt.sign({id:user._id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' })
+        const token = jwt.sign({id:user._id }, process.env.SECRET_KEY, { expiresIn: '1h' })
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -24,6 +37,8 @@ export const registerUser = async (req, res) => {
     } catch (err) {
         res.send({ success: false, message: err.message })
     }
+    console.log(req.cookies);
+    
 }
 // login user
 export const loginUser = async (req, res) => {
@@ -43,18 +58,21 @@ export const loginUser = async (req, res) => {
 
             return res.json({ success: false, message: "Invalid Password" })
         }
-        const token = jwt.sign({ id:user._id,email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' })
+        const token = jwt.sign({ id:user._id }, process.env.SECRET_KEY, { expiresIn: '1h' })
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge: 7 * 24 * 60 * 60
         })
+            console.log(req.cookies);
         res.json({ success: true, })
 
     } catch (err) {
         res.json({ success: false, message: err.message })
     }
+
+    
 }
 // logout user
 export const logoutUser = async (req, res) => {

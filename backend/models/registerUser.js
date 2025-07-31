@@ -16,7 +16,11 @@ const register=mongoose.Schema({
     confirmPassword:{
         type:String,
         // required:true
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
     }
 })
-const registerUsers=mongoose.model("reisteruser",register)
+const registerUsers=mongoose.model("registeruser",register)
 export default registerUsers;

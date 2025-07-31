@@ -15,6 +15,8 @@ setFormData({...formData,[e.target.name]:e.target.value})
 try{
     const res= await axios.post("http://localhost:5000/api/user/login", formData)
     console.log(res.data);
+    // sessionStorage.setItem("name",res.data.name)
+    // sessionStorage.setItem("email",res.data.user.email)
     setFormData({
       email: "",
       password: "",

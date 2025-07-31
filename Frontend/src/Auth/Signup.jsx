@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios";
+
 function Signup() {
+  const navigate =useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,14 +19,14 @@ function Signup() {
     try {
       const res = await axios.post("http://localhost:5000/api/user/register", formData)
       console.log(res.data);
-          setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: ""
-    });
+    //       setFormData({
+    //   name: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: ""
+    // });
+          // navigate("/login")
     }
-
     catch (err) {
       console.log(err.message);
 
@@ -53,7 +55,7 @@ function Signup() {
               <label className='block mb-1 text-lg' htmlFor="">Confirm Password</label>
               <input className="rounded-xl mb-2 focus:outline-none p-2 bg-white w-full" name='confirmPassword' type="text" placeholder='Confirm Password' value={formData.confirmPassword} onChange={handleChange} required />
             </div>
-            <div className=' text-center font-semibold py-2 text-lg rounded-xl bg-[#FFD700]'><button>Register</button></div>
+           <button className='text-center w-full font-semibold py-2 text-lg rounded-xl bg-[#FFD700]'>Register</button>
             <div className='flex justify-between text-lg p-3'>
               <div>
                 <p>Already have an account?</p>

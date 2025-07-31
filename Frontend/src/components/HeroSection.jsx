@@ -1,12 +1,11 @@
 import React from 'react'
-import herosectionImg from "../assets/images/herosection.png";
-import backGround from '../assets/images/backGround.png';
 import { Link } from 'react-router-dom';
+import { assets } from '../assets/assets';
 export default function HeroSection() {
     return (
         <>
             <div className="h-screen " style={{
-                backgroundImage: `url(${backGround})`,
+                backgroundImage: `url(${assets.background})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
             }}>
@@ -20,7 +19,7 @@ export default function HeroSection() {
                         <button className='bg-[#FFD700] px-4 mt-4 py-2 font-bold text-lg rounded-xl'> <Link to="#" >Get Started</Link></button>
                     </div>
                     <div className='h-48'>
-                        <img className="w-100" src={herosectionImg} alt="" />
+                        <img className="w-100" src={assets.herosectionImg} alt="" />
                     </div>
                 </div>
             </div>

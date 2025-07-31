@@ -8,7 +8,7 @@ import Signup from './Auth/Signup';
 import Master from './layouts/Master';
 import Error from './Pages/Error';
 import Jobcategories from './Pages/Jobcategories';
-import Popularjob from './Pages/Popularjob';
+import Popularjob from './components/Popularjob';
 import { Applyjob } from './Pages/Applyjob';
 function App() {
 
@@ -24,8 +24,9 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/job-category" element={<Jobcategories/>} />
           <Route path="/popular-jobs" element={<Popularjob/>} />
-          <Route path="/apply-job/:id" element={<Applyjob/>} />
+          <Route path="/apply-job" element={<Applyjob/>} />
           <Route path="/*" element={<Error/>} />
+          {/* <Route path="/" element={<Error/>} /> */}
         </Route>
       </Routes>
     </>
