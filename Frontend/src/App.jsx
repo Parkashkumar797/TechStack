@@ -9,7 +9,11 @@ import Master from './layouts/Master';
 import Error from './Pages/Error';
 import Jobcategories from './Pages/Jobcategories';
 import Popularjob from './components/Popularjob';
-import { Applyjob } from './Pages/Applyjob';
+import Applyjob from './Pages/Applyjob';
+// import FeaturedJobs from './components/FeaturedJobs';
+import WhyChooseTalentStack from './components/WhyChooseTalentStack';
+import Testimonials from './components/Testimonials';
+import Job from './Pages/Job';
 function App() {
 
 
@@ -25,6 +29,10 @@ function App() {
           <Route path="/job-category" element={<Jobcategories/>} />
           <Route path="/popular-jobs" element={<Popularjob/>} />
           <Route path="/apply-job" element={<Applyjob/>} />
+          {/* <Route path="/featured-job" element={<FeaturedJobs/>} /> */}
+          <Route path="/why-choose" element={<WhyChooseTalentStack/>} />
+          <Route path="/testimonial" element={<Testimonials/>} />
+          <Route path="/job" element={<Job/>} />
           <Route path="/*" element={<Error/>} />
           {/* <Route path="/" element={<Error/>} /> */}
         </Route>

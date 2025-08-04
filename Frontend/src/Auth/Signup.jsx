@@ -17,15 +17,23 @@ function Signup() {
   const handleForm = async (e) => {
     e.preventDefault()
     try {
+
+
       const res = await axios.post("http://localhost:5000/api/user/register", formData)
       console.log(res.data);
-    //       setFormData({
-    //   name: "",
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: ""
-    // });
-          // navigate("/login")
+      
+      if (res.data.success) {
+        alert("Registration successful!");
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: ""
+        });
+        navigate("/login")
+      } else {
+        alert(res.data.message || "Registration failed!");
+      }
     }
     catch (err) {
       console.log(err.message);
@@ -33,7 +41,6 @@ function Signup() {
     }
 
   }
-
     return (
       <>
         <div className="bg-gradient-to-br from-[#0A3A74] via-[#2172C1] to-[#4FB7F3] h-screen flex justify-center items-center ">

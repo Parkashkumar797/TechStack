@@ -24,7 +24,7 @@ export default function Header() {
           <div className="lg:flex  text-lg hidden items-center gap-6 text-white font-semibold">
             <ul className="flex gap-4">
               <li><Link className="hover:text-[#FFD700]" to="/">Home</Link></li>
-              <li><Link className="hover:text-[#FFD700]" to="#">Jobs</Link></li>
+              <li><Link className="hover:text-[#FFD700]" to="/job">Jobs</Link></li>
               <li><Link className="hover:text-[#FFD700]" to="#">Applications</Link></li>
             </ul>
 

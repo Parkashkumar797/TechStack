@@ -1,6 +1,6 @@
 import express from "express"
 import multer from "multer";
-const router = express.Router();
+const router = express.Router();    
 import { registerUser,loginUser,logoutUser } from "../controllers/userControlller.js";
 // import userauth from "../middleware/authMiddleware.js"
 

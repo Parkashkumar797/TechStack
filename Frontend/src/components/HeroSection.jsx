@@ -4,7 +4,7 @@ import { assets } from '../assets/assets';
 export default function HeroSection() {
     return (
         <>
-            <div className="h-screen " style={{
+            <div className="h-[85vh] " style={{
                 backgroundImage: `url(${assets.background})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -16,10 +16,10 @@ export default function HeroSection() {
                         <div className='text-xl'>
                             Connecting Talent with Top Companies
                         </div>
-                        <button className='bg-[#FFD700] px-4 mt-4 py-2 font-bold text-lg rounded-xl'> <Link to="#" >Get Started</Link></button>
+                        <button className='bg-[#FFD700] px-4 mt-4 py-2 font-bold text-lg rounded-xl'> <Link to="/job" >Get Started</Link></button>
                     </div>
-                    <div className='h-48'>
-                        <img className="w-100" src={assets.herosectionImg} alt="" />
+                    <div className='h-52'>
+                        <img className="w-100 relative lg:w-100 md:w-200 bottom-20" src={assets.herosectionImg} alt="person" />
                     </div>
                 </div>
             </div>
