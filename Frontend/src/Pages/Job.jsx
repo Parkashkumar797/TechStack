@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { assets } from '../assets/assets'
+import axios from 'axios'
 
 export default function Job() {
   const [selectedCategories, setSelectedCategories] = useState([])
@@ -9,88 +10,80 @@ export default function Job() {
   const [jobs, setJobs] = useState([])
 
   // Sample job data based on the image description
-  const jobData = [
-    {
-      id: 1,
-      title: "Cloud Engineer",
-      company: "Microsoft",
-      logo: assets.microsoft_logo,
-      location: "Hyderabad",
-      level: "Intermediate Level",
-      description: "We are seeking a skilled Cloud Engineer to design, implement, and maintain cloud infrastructure solutions. You will work with cutting-edge technologies to ensure optimal performance and scalability.",
-      category: "Programming"
-    },
-    {
-      id: 2,
-      title: "Network Security Engineer",
-      company: "Microsoft",
-      logo: assets.microsoft_logo,
-      location: "Bangalore",
-      level: "Senior Level",
-      description: "Join our security team to protect our network infrastructure. You will implement security measures, monitor threats, and ensure compliance with industry standards.",
-      category: "Cybersecurity"
-    },
-    {
-      id: 3,
-      title: "Software Tester",
-      company: "Amazon",
-      logo: assets.amazon_logo,
-      location: "Chennai",
-      level: "Intermediate Level",
-      description: "Ensure software quality through comprehensive testing. You will develop test plans, execute test cases, and collaborate with development teams to deliver high-quality products.",
-      category: "Programming"
-    },
-    {
-      id: 4,
-      title: "Graphic Designer",
-      company: "Adobe",
-      logo: assets.adobe_logo,
-      location: "Chennai",
-      level: "Intermediate Level",
-      description: "Create compelling visual designs that communicate brand messages effectively. You will work on various design projects including branding, marketing materials, and digital assets.",
-      category: "Designing"
-    },
-    {
-      id: 5,
-      title: "Content Marketing Manager",
-      company: "Samsung",
-      logo: assets.samsung_logo,
-      location: "Mumbai",
-      level: "Senior Level",
-      description: "Develop and execute content marketing strategies to drive brand awareness and engagement. You will create compelling content across multiple channels and platforms.",
-      category: "Marketing"
-    },
-    {
-      id: 6,
-      title: "Human Resources Specialist",
-      company: "Walmart",
-      logo: assets.walmart_logo,
-      location: "Washington",
-      level: "Intermediate Level",
-      description: "Support HR operations including recruitment, employee relations, and policy implementation. You will ensure compliance with labor laws and maintain positive workplace culture.",
-      category: "Management"
-    }
-  ]
+  // const jobData = [
+  //   {
+  //     id: 1,
+  //     title: "Cloud Engineer",
+  //     company: "Microsoft",
+  //     logo: assets.microsoft_logo,
+  //     location: "Hyderabad",
+  //     level: "Intermediate Level",
+  //     description: "We are seeking a skilled Cloud Engineer to design, implement, and maintain cloud infrastructure solutions. You will work with cutting-edge technologies to ensure optimal performance and scalability.",
+  //     category: "Programming"
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Network Security Engineer",
+  //     company: "Microsoft",
+  //     logo: assets.microsoft_logo,
+  //     location: "Bangalore",
+  //     level: "Senior Level",
+  //     description: "Join our security team to protect our network infrastructure. You will implement security measures, monitor threats, and ensure compliance with industry standards.",
+  //     category: "Cybersecurity"
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Software Tester",
+  //     company: "Amazon",
+  //     logo: assets.amazon_logo,
+  //     location: "Chennai",
+  //     level: "Intermediate Level",
+  //     description: "Ensure software quality through comprehensive testing. You will develop test plans, execute test cases, and collaborate with development teams to deliver high-quality products.",
+  //     category: "Programming"
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Graphic Designer",
+  //     company: "Adobe",
+  //     logo: assets.adobe_logo,
+  //     location: "Chennai",
+  //     level: "Intermediate Level",
+  //     description: "Create compelling visual designs that communicate brand messages effectively. You will work on various design projects including branding, marketing materials, and digital assets.",
+  //     category: "Designing"
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Content Marketing Manager",
+  //     company: "Samsung",
+  //     logo: assets.samsung_logo,
+  //     location: "Mumbai",
+  //     level: "Senior Level",
+  //     description: "Develop and execute content marketing strategies to drive brand awareness and engagement. You will create compelling content across multiple channels and platforms.",
+  //     category: "Marketing"
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Human Resources Specialist",
+  //     company: "Walmart",
+  //     logo: assets.walmart_logo,
+  //     location: "Washington",
+  //     level: "Intermediate Level",
+  //     description: "Support HR operations including recruitment, employee relations, and policy implementation. You will ensure compliance with labor laws and maintain positive workplace culture.",
+  //     category: "Management"
+  //   }
+  // ]
 
   const categories = ["Programming", "Data Science", "Designing", "Networking", "Management", "Marketing", "Cybersecurity"]
   const locations = ["Bangalore", "Washington", "Hyderabad", "Mumbai", "California", "Chennai", "New York"]
 
-  const companyLogos = [
-    { name: "Microsoft", logo: assets.microsoft_logo },
-    { name: "Walmart", logo: assets.walmart_logo },
-    { name: "Accenture", logo: assets.accenture_logo },
-    { name: "Samsung", logo: assets.samsung_logo },
-    { name: "Amazon", logo: assets.amazon_logo },
-    { name: "Adobe", logo: assets.adobe_logo }
-  ]
 
   useEffect(() => {
-    setJobs(jobData)
-    setFilteredJobs(jobData)
+    setJobs(jobs)
+    setFilteredJobs(jobs)
   }, [])
 
   useEffect(() => {
-    let filtered = jobData
+    let filtered = jobs
 
     if (selectedCategories.length > 0) {
       filtered = filtered.filter(job => selectedCategories.includes(job.category))
@@ -123,7 +116,20 @@ export default function Job() {
     setSelectedCategories([])
     setSelectedLocations([])
   }
-
+useEffect( ()=>{
+  const abc= async()=>{
+    try{
+const res= await axios.get("http://localhost:5000/api/job/jobs")
+setJobs(res.data)
+    }
+      catch(err){
+        console.log(err.message);
+        
+      }
+      // console.log(setJobs);
+  }
+  abc();
+},[])
   return (
     <div className="min-h-screen bg-[#ffff0]">
       {/* Header with Company Logos */}
@@ -132,11 +138,11 @@ export default function Job() {
           <div className="flex items-center justify-center space-x-8">
             <span className="text-gray-600 font-medium">Trusted by</span>
             <div className="flex items-center space-x-6">
-              {companyLogos.map((company, index) => (
+              {jobs.map((job, index) => (
                 <img
                   key={index}
-                  src={company.logo}
-                  alt={company.name}
+                  src={job.logo}
+                  alt={job.company}
                   className="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity"
                 />
               ))}
@@ -219,8 +225,8 @@ export default function Job() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredJobs.map((job) => (
-                  <div key={job.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+                {jobs.map((job) => (
+                  <div key={job._id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
                     {/* Company Logo */}
                     <div className="flex items-center mb-4">
                       <img
@@ -251,13 +257,13 @@ export default function Job() {
                     {/* Action Buttons */}
                     <div className="flex gap-3">
                       <Link
-                        to={`/apply-job/${job.id}`}
+                        to={`/apply-job/${job._id}`}
                         className="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
                       >
                         Apply now
                       </Link>
                       <Link
-                        to={`/job/${job.id}`}
+                        to={`/job/${job._id}`}
                         className="flex-1 border border-blue-600 text-blue-600 text-center py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium"
                       >
                         Learn more

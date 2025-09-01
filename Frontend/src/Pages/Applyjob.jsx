@@ -30,9 +30,11 @@ const Applyjob = () => {
     const formData = new FormData();
     formData.append("name", data.name)
     formData.append("email", data.email)
-    formData.append("resume", resume)
-    console.log(data.file);
+    formData.append("resume",resume)
+    // console.log(data.file);
     const response = await axios.post(`${url}/api/job/apply-job`, formData)
+    console.log(response);
+    
     if (response.data.success) {
       alert("product added successfully ")
       // setData({
@@ -69,7 +71,7 @@ const Applyjob = () => {
                 value={data.name}
                 onChange={handleChange}
                 name='name'
-                placeholder='Amit Patel'
+                placeholder='Full Name'
               />
             </div>
           </div>
@@ -84,7 +86,7 @@ const Applyjob = () => {
                 value={data.email}
                 onChange={handleChange}
                 name='email'
-                placeholder='amit@example.com'
+                placeholder='abc@example.com'
               />
             </div>
           </div>
@@ -107,7 +109,7 @@ const Applyjob = () => {
                     onChange={handleFileChange}
                     name='resume'
                     className="hidden"
-                    accept=".pdf,.doc,.docx"
+                   
                   />
                 </label>
               </div>

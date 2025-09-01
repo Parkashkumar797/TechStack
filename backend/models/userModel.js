@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const register=mongoose.Schema({
+const userSchema=mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -40,7 +40,12 @@ default:''
     createdAt:{
         type:Date,
         default:Date.now
+    },
+    role:{
+        type:String,
+        enum:['admin','user'],
+        default:"user"
     }
 })
-const registerUsers=mongoose.model("registeruser",register)
-export default registerUsers;
+const userModel=mongoose.model("users",userSchema)
+export default userModel;

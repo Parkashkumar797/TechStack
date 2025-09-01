@@ -14,6 +14,10 @@ import Applyjob from './Pages/Applyjob';
 import WhyChooseTalentStack from './components/WhyChooseTalentStack';
 import Testimonials from './components/Testimonials';
 import Job from './Pages/Job';
+import Application from './Pages/Application';
+import Createjob from './Pages/Creatrejob';
+import CompanyRegister from './Pages/CompanyRegister';
+import PostJob from './Pages/Postjob';
 function App() {
 
 
@@ -33,6 +37,10 @@ function App() {
           <Route path="/why-choose" element={<WhyChooseTalentStack/>} />
           <Route path="/testimonial" element={<Testimonials/>} />
           <Route path="/job" element={<Job/>} />
+          <Route path="/applied" element={<Application/>} />
+          <Route path="/create-job" element={<Createjob/>} />
+          <Route path="/register-company" element={<CompanyRegister/>} />
+          <Route path="/post-job" element={<PostJob/>} />
           <Route path="/*" element={<Error/>} />
           {/* <Route path="/" element={<Error/>} /> */}
         </Route>

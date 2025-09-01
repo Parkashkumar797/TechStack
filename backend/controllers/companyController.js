@@ -1,14 +1,30 @@
 import companyModel from "../models/companyModel.js";
-export const registeredCompany=async (req,res)=>{
-    const {title,company,logo,location,level,description,category}=req.body
-    if(!title||!company||!logo||!location||!level||!description||!category){
-        return  res.json({success:false,message:"Details are missing"});
+export const register= async(req,res)=>{
+    const {companyName,description,logoUrl,website}=req.body
+if(!companyName||!description||!logoUrl||!website){
+    res.json({success:false,message:"all fields are necessary"})
+}
+try {
+    const existingCompany= await companyModel.findOne({website})
+    if(existingCompany){
+res.json({success:false,message:"company already exist"})
     }
+    else{
+        const company=  new companyModel( {companyName,description,logoUrl,website})
+        await company.save()
+        console.log(company);
+        
+    } 
+} catch (error) {
+    res.json({success:false,message:error.message})
+}
+}
+export const compantList=async (req,res)=>{
     try {
-        const comapany= new companyModel({title,company,logo,location,level,description,category})
-        await comapany.save();
-        return res.json({success:true,message:"Sccessfully Registered"})
+           const company= await companyModel.find({})
+    res.json(company)
     } catch (error) {
-        return res.json({success:false,message:error.message})
+        res.json({success:false,message:error.message})
     }
+
 }

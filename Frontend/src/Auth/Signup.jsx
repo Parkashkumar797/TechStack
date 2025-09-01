@@ -19,7 +19,7 @@ function Signup() {
     try {
 
 
-      const res = await axios.post("http://localhost:5000/api/user/register", formData)
+      const res = await axios.post("http://localhost:5000/api/auth/register", formData)
       console.log(res.data);
       
       if (res.data.success) {
@@ -56,11 +56,11 @@ function Signup() {
             </div>
             <div>
               <label className='block mb-1 text-lg' htmlFor="">Password</label>
-              <input className="rounded-xl  focus:outline-none p-2 bg-white w-full" name='password' type="text" placeholder='Password' value={formData.password} onChange={handleChange} required />
+              <input className="rounded-xl  focus:outline-none p-2 bg-white w-full" name='password' type="password" placeholder='Password' value={formData.password} onChange={handleChange} required />
             </div>
             <div>
               <label className='block mb-1 text-lg' htmlFor="">Confirm Password</label>
-              <input className="rounded-xl mb-2 focus:outline-none p-2 bg-white w-full" name='confirmPassword' type="text" placeholder='Confirm Password' value={formData.confirmPassword} onChange={handleChange} required />
+              <input className="rounded-xl mb-2 focus:outline-none p-2 bg-white w-full" name='confirmPassword' type="password" placeholder='Confirm Password' value={formData.confirmPassword} onChange={handleChange} required />
             </div>
            <button className='text-center w-full font-semibold py-2 text-lg rounded-xl bg-[#FFD700]'>Register</button>
             <div className='flex justify-between text-lg p-3'>

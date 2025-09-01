@@ -1,8 +1,28 @@
-import mongoose from "mongoose";
-const jobSchema = mongoose.Schema({
-    name:{type:String,required:true},
-    email:{type:String,required:true,unique:true},
-    resume:{type:String,required:true}
+import mongoose from 'mongoose';
+const jobSchema=mongoose.Schema({
+    title:{
+        type:String,
+        // enum:['Programming','DataScience','Designing','Networking','Management','Marketing','Cybersecurity'],
+        required:true
+    },company:{
+        type:String,
+        required:true 
+    },
+    logo:{
+        type:String,required:true
+    },
+    location:{
+        type:String,required:true
+    },
+    level:{
+        type:String,required:true
+    },
+    description:{
+        type:String,required:true
+    },
+    category:{
+        type:String,required:true
+    }
 })
-const jobModel =mongoose.model("applied",jobSchema)
+const jobModel=mongoose.model("jobs",jobSchema)
 export default jobModel;

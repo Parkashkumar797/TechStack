@@ -1,28 +1,27 @@
 import mongoose from 'mongoose';
-const companySchema=mongoose.Schema({
-    title:{
-        type:String,
-        enum:['Programming','DataScience','Designing','Networking','Management','Marketing','Cybersecurity'],
-        required:true
-    },company:{
-        type:String,
-        required:true
+const companySchema = mongoose.Schema({
+    companyName: {
+        type: String,
+        required: [true, 'company name is required'],
+        unique: true,
+        trim: true
     },
-    logo:{
-        type:String,required:true
+    description: {
+        type: String,
+        required: true,
+        maxlength: 2000
     },
-    location:{
-        type:String,required:true
+    logoUrl: {
+        type: String,
+        default: '/images/default-logo.png'
     },
-    level:{
-        type:String,required:true
+    website: {
+        type: String,
+        required: true,
+        trim: true
     },
-    description:{
-        type:String,required:true
-    },
-    category:{
-        type:String,required:true
-    }
-})
-const companyModel=mongoose.model("companies",companySchema)
-export default companyModel
+},
+    { timestamps: true }
+)
+const companyModel = mongoose.model("company",companySchema)
+export default companyModel;

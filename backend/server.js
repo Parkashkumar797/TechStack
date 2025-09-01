@@ -1,14 +1,14 @@
 import express from "express"
 import connectDB from "./config/db.js";
-import router from "./routes/userRoute.js";
 import cookieParser from 'cookie-parser';
-import jobRouter from "./routes/jobRoutes.js";
+import jobRoute from "./routes/jobRoute.js";
 import path from "path";
 import cors from "cors"
 import dotenv from 'dotenv'
-import companyRouter from "./routes/companyRoutes.js";
+import authRouter from "./routes/authRoute.js";
+import companyRoute from "./routes/companyRoute.js";
+import userRoute from "./routes/userRoute.js";
 // import auth from "./middleware/authMiddleware.js";
-
 // Load environment variables
 dotenv.config()
 const app = express();
@@ -17,16 +17,17 @@ app.set("view engine", "ejs")
 connectDB();
 // middlewares
     app.use(cors({
-  origin: "http://localhost:5173",
+  origin:[ "http://localhost:5173","http://localhost:5174"],
   credentials: true 
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser());
-app.use('/api/user', router)
-app.use("/api/job",jobRouter)
-app.use("/api/company",companyRouter)
+app.use('/api/auth', authRouter)
+app.use("/api/job",jobRoute)
+app.use("/api/company",companyRoute)
+app.use("/api/user",userRoute)
 app.use('/images', express.static('Upload'))
 app.get("/", (req, res) => {res.send("API Working Successfully ")})
 
