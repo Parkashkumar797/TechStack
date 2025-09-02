@@ -1,281 +1,56 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import axios from 'axios'
+import { AppContext } from '../context/Appcontext'
+import JobListing from '../components/JobListing'
 
 export default function Job() {
-  const [selectedCategories, setSelectedCategories] = useState([])
-  const [selectedLocations, setSelectedLocations] = useState([])
-  const [filteredJobs, setFilteredJobs] = useState([])
-  const [jobs, setJobs] = useState([])
-
-  // Sample job data based on the image description
-  // const jobData = [
-  //   {
-  //     id: 1,
-  //     title: "Cloud Engineer",
-  //     company: "Microsoft",
-  //     logo: assets.microsoft_logo,
-  //     location: "Hyderabad",
-  //     level: "Intermediate Level",
-  //     description: "We are seeking a skilled Cloud Engineer to design, implement, and maintain cloud infrastructure solutions. You will work with cutting-edge technologies to ensure optimal performance and scalability.",
-  //     category: "Programming"
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Network Security Engineer",
-  //     company: "Microsoft",
-  //     logo: assets.microsoft_logo,
-  //     location: "Bangalore",
-  //     level: "Senior Level",
-  //     description: "Join our security team to protect our network infrastructure. You will implement security measures, monitor threats, and ensure compliance with industry standards.",
-  //     category: "Cybersecurity"
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Software Tester",
-  //     company: "Amazon",
-  //     logo: assets.amazon_logo,
-  //     location: "Chennai",
-  //     level: "Intermediate Level",
-  //     description: "Ensure software quality through comprehensive testing. You will develop test plans, execute test cases, and collaborate with development teams to deliver high-quality products.",
-  //     category: "Programming"
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Graphic Designer",
-  //     company: "Adobe",
-  //     logo: assets.adobe_logo,
-  //     location: "Chennai",
-  //     level: "Intermediate Level",
-  //     description: "Create compelling visual designs that communicate brand messages effectively. You will work on various design projects including branding, marketing materials, and digital assets.",
-  //     category: "Designing"
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Content Marketing Manager",
-  //     company: "Samsung",
-  //     logo: assets.samsung_logo,
-  //     location: "Mumbai",
-  //     level: "Senior Level",
-  //     description: "Develop and execute content marketing strategies to drive brand awareness and engagement. You will create compelling content across multiple channels and platforms.",
-  //     category: "Marketing"
-  //   },
-  //   {
-  //     id: 6,
-  //     title: "Human Resources Specialist",
-  //     company: "Walmart",
-  //     logo: assets.walmart_logo,
-  //     location: "Washington",
-  //     level: "Intermediate Level",
-  //     description: "Support HR operations including recruitment, employee relations, and policy implementation. You will ensure compliance with labor laws and maintain positive workplace culture.",
-  //     category: "Management"
-  //   }
-  // ]
-
-  const categories = ["Programming", "Data Science", "Designing", "Networking", "Management", "Marketing", "Cybersecurity"]
-  const locations = ["Bangalore", "Washington", "Hyderabad", "Mumbai", "California", "Chennai", "New York"]
-
-
-  useEffect(() => {
-    setJobs(jobs)
-    setFilteredJobs(jobs)
-  }, [])
-
-  useEffect(() => {
-    let filtered = jobs
-
-    if (selectedCategories.length > 0) {
-      filtered = filtered.filter(job => selectedCategories.includes(job.category))
-    }
-
-    if (selectedLocations.length > 0) {
-      filtered = filtered.filter(job => selectedLocations.includes(job.location))
-    }
-
-    setFilteredJobs(filtered)
-  }, [selectedCategories, selectedLocations])
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    )
-  }
-
-  const handleLocationChange = (location) => {
-    setSelectedLocations(prev => 
-      prev.includes(location) 
-        ? prev.filter(l => l !== location)
-        : [...prev, location]
-    )
-  }
-
-  const clearFilters = () => {
-    setSelectedCategories([])
-    setSelectedLocations([])
-  }
-useEffect( ()=>{
-  const abc= async()=>{
-    try{
-const res= await axios.get("http://localhost:5000/api/job/jobs")
-setJobs(res.data)
-    }
-      catch(err){
-        console.log(err.message);
-        
-      }
-      // console.log(setJobs);
-  }
-  abc();
-},[])
+const{setSearchFilter,setIsSearched}=useContext(AppContext)
+const titleRef=useRef(null)
+const locationRef=useRef(null)
+const onSearch=()=>{
+    setSearchFilter({
+        title:titleRef.current.value,
+        location:locationRef.current.value,
+    })
+    setIsSearched(true) 
+    console.log({ title:titleRef.current.value,
+        location:locationRef.current.value
+    })
+}
   return (
-    <div className="min-h-screen bg-[#ffff0]">
-      {/* Header with Company Logos */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-center space-x-8">
-            <span className="text-gray-600 font-medium">Trusted by</span>
-            <div className="flex items-center space-x-6">
-              {jobs.map((job, index) => (
-                <img
-                  key={index}
-                  src={job.logo}
-                  alt={job.company}
-                  className="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity"
-                />
-              ))}
+    <>
+      <div className='container 2xl:px-20 mx-auto my-10'>
+        <div className='bg-gradient-to-r from-purple-800 to-purple-950 text-white rounded-xl py-16 mx-2 text-center'>
+          <h2 className='text-2xl md:text-3xl lg:text-4xl font-medium mb-4'>over  10,000+ jobs applied here </h2>
+          <p className='mb-8 max-w-xl mx-auto text-sm font-light px-5'>Your next big career moves start right here -explore the Best job opportunity and take the first step Towards the Future   </p>
+
+          <div className='flex items-center justify-between bg-white rounded text-gray-600 max-w-xl pl-4 mx-4 sm:mx-auto'>
+            <div className='flex items-center'>
+              <img src={assets.search_icon} alt="search" />
+              <input className='max-sm:text-xs p-2 eounded outline-none w-full' type="text" placeholder='Search for jobs' ref={titleRef} />
             </div>
+            <div className='flex items-center'>
+              <img src={assets.location_icon} alt="location" />
+              <input className='max-sm:text-xs p-2 eounded outline-none w-full' type="text" placeholder='Location' ref={locationRef} />
+            </div>
+            <button onClick={onSearch} className='bg-blue-600 px-6 py-2 rounded text-white m-1'>search</button>
+          </div>
+        </div>
+
+        <div className='border border-gray-300 shadow-md mx-2 mt-5 p-6 rounded-md flex '>
+          <div className='flex justify-center gap:10 lg:gap-16 flex-wrap'>
+            <p className='font-medium'>TRusted by </p>
+            <img className='h-6' src={assets.microsoft_logo} alt="" />
+            <img className='h-6' src={assets.walmart_logo} alt="" />
+            <img className='h-6' src={assets.accenture_logo} alt="" />
+            <img className='h-6' src={assets.samsung_logo} alt="" />
+            <img className='h-6' src={assets.amazon_logo} alt="" />
           </div>
         </div>
       </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Sidebar - Filters */}
-          <div className="lg:w-1/4">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
-                {(selectedCategories.length > 0 || selectedLocations.length > 0) && (
-                  <button
-                    onClick={clearFilters}
-                    className="text-sm text-blue-600 hover:text-blue-800"
-                  >
-                    Clear all
-                  </button>
-                )}
-              </div>
-
-              {/* Categories Filter */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-900 mb-3">Search by Categories</h4>
-                <div className="space-y-2">
-                  {categories.map((category) => (
-                    <label key={category} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => handleCategoryChange(category)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">{category}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Locations Filter */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-900 mb-3">Search by Location</h4>
-                <div className="space-y-2">
-                  {locations.map((location) => (
-                    <label key={location} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={selectedLocations.includes(location)}
-                        onChange={() => handleLocationChange(location)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">{location}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Content - Job Listings */}
-          <div className="lg:w-3/4">
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Latest jobs</h1>
-              <p className="text-gray-600">Get your desired job from top companies</p>
-            </div>
-
-            {filteredJobs.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-gray-500">No jobs found matching your criteria.</p>
-                <button
-                  onClick={clearFilters}
-                  className="mt-4 text-blue-600 hover:text-blue-800"
-                >
-                  Clear filters
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {jobs.map((job) => (
-                  <div key={job._id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
-                    {/* Company Logo */}
-                    <div className="flex items-center mb-4">
-                      <img
-                        src={job.logo}
-                        alt={job.company}
-                        className="w-10 h-10 rounded-full object-contain"
-                      />
-                    </div>
-
-                    {/* Job Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">{job.title}</h3>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-                        {job.location}
-                      </span>
-                      <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">
-                        {job.level}
-                      </span>
-                    </div>
-
-                    {/* Job Description */}
-                    <p className="text-gray-600 text-sm mb-6 line-clamp-3">
-                      {job.description}
-                    </p>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-3">
-                      <Link
-                        to={`/apply-job/${job._id}`}
-                        className="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                      >
-                        Apply now
-                      </Link>
-                      <Link
-                        to={`/job/${job._id}`}
-                        className="flex-1 border border-blue-600 text-blue-600 text-center py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium"
-                      >
-                        Learn more
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+<JobListing/>
+    </>
   )
 }

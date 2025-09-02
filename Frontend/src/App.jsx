@@ -32,12 +32,12 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/job-category" element={<Jobcategories/>} />
           <Route path="/popular-jobs" element={<Popularjob/>} />
-          <Route path="/apply-job" element={<Applyjob/>} />
+          <Route path="/apply-job/:id" element={<Applyjob/>} />
           {/* <Route path="/featured-job" element={<FeaturedJobs/>} /> */}
           <Route path="/why-choose" element={<WhyChooseTalentStack/>} />
           <Route path="/testimonial" element={<Testimonials/>} />
           <Route path="/job" element={<Job/>} />
-          <Route path="/applied" element={<Application/>} />
+          <Route path="/applications" element={<Application/>} />
           <Route path="/create-job" element={<Createjob/>} />
           <Route path="/register-company" element={<CompanyRegister/>} />
           <Route path="/post-job" element={<PostJob/>} />

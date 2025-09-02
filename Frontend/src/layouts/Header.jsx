@@ -37,11 +37,13 @@ export default function Header() {
             <ul className="flex gap-4">
               <li><Link className="hover:text-[#FFD700]" to="/">Home</Link></li>
               <li><Link className="hover:text-[#FFD700]" to="/job">Jobs</Link></li>
-              <li><Link className="hover:text-[#FFD700]" to="applied">Applications</Link></li>
+              <li><Link className="hover:text-[#FFD700]" to="/applications">Applications</Link></li>
             </ul>
 
             {/* Signup Button */}
               <Link to="/login">
+
+              {/* check user logged in or not */}
               {isLoggedIn ? (
        <button onClick={handleLogout} className="bg-[#FFD700] text-[#0A3A74] font-bold px-4 py-2 rounded hover:bg-yellow-400 transition">
             logout
