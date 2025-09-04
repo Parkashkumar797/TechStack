@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FiBriefcase } from "react-icons/fi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import axios from "axios";
+import { useParams } from 'react-router-dom';
 
 const Applyjob = () => {
   const [resume, setResume] = useState(false);
@@ -12,6 +13,9 @@ const Applyjob = () => {
     name: "",
     email: "",
   })
+const {id}=useParams()
+const [JobData,setJobData]=useState(null)
+ 
 
   const handleChange = (e) => {
     const name = e.target.name;
