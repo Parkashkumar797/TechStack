@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { jwtDecode } from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'   // ✅ keep named import
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -20,26 +20,30 @@ function Login() {
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData)
 
-      // ✅ Make sure to pick the correct field from backend response
-      const token = res.data.token   // <-- check your backend response format
-console.log("Login API Response:", res.data);
+      const token = res.data.token
+      console.log("Login API Response:", res.data)
 
       if (!token) {
         throw new Error("Token not found in response")
       }
+
+      // ✅ Decode token
       const decodedUser = jwtDecode(token)
       console.log("Decoded User:", decodedUser)
+
+      // ✅ Save both token & userId in localStorage
+      localStorage.setItem('token', token)
+      localStorage.setItem('userId', decodedUser.id || decodedUser._id)
 
       // ✅ Role-based navigation
       if (decodedUser.role === 'admin') {
         window.location.href = "http://localhost:5174/"
-
       } else if (decodedUser.role === 'recruiter') {
         navigate('/recruiter-dashboard')
       } else {
         navigate('/')
       }
-      localStorage.setItem('token', token)
+
       setFormData({ email: "", password: "" }) 
     } catch (error) {
       console.error("Login failed:", error)

@@ -4,25 +4,26 @@ const jobSchema=mongoose.Schema({
         type:String,
         // enum:['Programming','DataScience','Designing','Networking','Management','Marketing','Cybersecurity'],
         required:true
-    },company:{
-        type:String,
-        required:true 
     },
-    logo:{
+      location:{
         type:String,required:true
     },
-    location:{
+  level:{
         type:String,required:true
     },
-    level:{
+  description:{
         type:String,required:true
     },
-    description:{
-        type:String,required:true
-    },
-    category:{
-        type:String,required:true
-    }
+    // logo:{
+    //     type:String,required:true
+    // },
+    // category:{
+    //     type:String,required:true
+    // },
+    //    company:{
+    //     type:String,
+    //     required:true 
+    // }
 })
 const jobModel=mongoose.model("jobs",jobSchema)
 export default jobModel;

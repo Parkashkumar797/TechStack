@@ -11,9 +11,12 @@ export default function Header() {
     setIsLoggedIn(token);
   }, []);
 
-   const handleLogout = async () => {
-    localStorage.removeItem("token"); // remove token
-    setIsLoggedIn(false); // update state
+    const handleLogout = () => {
+    localStorage.removeItem("token");   // remove JWT
+    localStorage.removeItem("userId");  // remove userId
+setIsLoggedIn(false);
+    alert("✅ Logged out successfully");
+    navigate("/login"); // redirect to login page
   };
 
   return (

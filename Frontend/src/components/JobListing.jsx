@@ -6,6 +6,7 @@ import JobCard from './JobCard'
 
 
 const JobListing = () => {
+    // const {jobs} = useContext(AppContext)
     const { isSearched, searchFilter, setSearchFilter, jobs } = useContext(AppContext)
     const [showFilter, setShowFilter] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)

@@ -1,0 +1,22 @@
+[
+  {
+    "student_id": "S001",
+    "name": "Parkash Kumar",
+    "age": 21,
+    "branch": "Computer Science",
+    "year": 3,
+    "college": "DAV University",
+    "subjects": ["DBMS", "Operating Systems", "Java"],
+    "cgpa": 8.2
+  },
+  {
+    "student_id": "S002",
+    "name": "Anjali Sharma",
+    "age": 20,
+    "branch": "Electronics",
+    "year": 2,
+    "college": "DAV University",
+    "subjects": ["Digital Logic", "Signals", "Mathematics"],
+    "cgpa": 8.7
+  }
+]
