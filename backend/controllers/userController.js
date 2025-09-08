@@ -5,7 +5,7 @@ export const userProfile = async (req, res) => {
   const { userId } = req.params; // get userId from request params
 
   try {
-    const user = await userModel.findById(userId).populate("appliedJobs"); // populate applied jobs
+    const user = await userModel.findById(userId).populate("appliedJobs.job"); // populate applied jobs
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }

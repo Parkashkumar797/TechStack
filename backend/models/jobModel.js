@@ -14,6 +14,8 @@ const jobSchema=mongoose.Schema({
   description:{
         type:String,required:true
     },
+    jobId: { type: mongoose.Schema.Types.ObjectId, ref: "Job" }
+
     // logo:{
     //     type:String,required:true
     // },

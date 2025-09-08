@@ -9,33 +9,41 @@ const statusColor = {
 
 const Application = () => {
   const [applications, setApplications] = useState([]);
-  const userId = localStorage.getItem("userId"); // logged-in user
   const url = "http://localhost:5000";
+  const token = localStorage.getItem("token"); // ✅ use token instead of userId
 
-  useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        if (!userId) return;
-        const res = await axios.get(`${url}/api/user/${userId}/profile`);
-        if (res.data.success) {
-          // Map appliedJobs to table format
-          const apps = res.data.user.appliedJobs.map((job) => ({
-            id: job._id,
-            title: job.title,
-            company: job.companyName || "N/A", // optional field
-            location: job.location,
-            appliedDate: new Date(job.createdAt).toLocaleDateString(),
-            status: job.status || "Pending", // default status
-          }));
-          setApplications(apps);
-        }
-      } catch (err) {
-        console.error(err);
+useEffect(() => {
+  const fetchApplications = async () => {
+    try {
+      if (!token) return;
+
+      const res = await axios.get(`${url}/api/job/applications`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.data.success) {
+        const apps = res.data.applications.map((app) => ({
+          id: app._id,
+          title: app.jobId?.title || "N/A",
+          company: app.jobId?.companyName || "N/A",
+          location: app.jobId?.location || "N/A",
+          appliedDate: new Date(app.createdAt).toLocaleDateString(),
+          status: app.status || "Pending",
+        }));
+        setApplications(apps);
+      } else {
+        setApplications([]); // ✅ avoid undefined
       }
-    };
+    } catch (err) {
+      console.error("Error fetching applications:", err);
+      setApplications([]); // ✅ error me empty array
+    }
+  };
 
-    fetchApplications();
-  }, [userId]);
+  fetchApplications();
+}, [token]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0A3A74] via-[#2172C1] to-[#4FB7F3] p-6">
@@ -70,7 +78,9 @@ const Application = () => {
                   <td className="p-3">{app.appliedDate}</td>
                   <td className="p-3">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor[app.status]}`}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        statusColor[app.status] || "bg-gray-200 text-gray-700"
+                      }`}
                     >
                       {app.status}
                     </span>

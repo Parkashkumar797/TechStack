@@ -72,3 +72,20 @@ export const userjob = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
+export const getApplications = async (req, res) => {
+  try {
+    const userId = req.body.userId; // ✅ middleware se set hua
+
+    const applications = await applyJobModel
+      .find({ userId })
+      .populate("jobId");
+
+    res.json({ success: true, applications });
+  } catch (error) {
+    console.error("Error in getApplications:", error);
+    res
+      .status(500)
+      .json({ success: false, message: error.message });
+  }
+};

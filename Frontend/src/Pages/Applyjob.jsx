@@ -33,19 +33,20 @@ const Applyjob = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+ const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  if (!token || !userId) {
+    alert("Please login again.");
+    navigate("/login");
+    return;
+  }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Please login first");
-      navigate("/login");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("resume", resume);
-    formData.append("jobId", id);
+  const formData = new FormData();
+  formData.append("name", data.name);
+  formData.append("email", data.email);
+  formData.append("resume", resume);
+  formData.append("jobId", id);      // ✅ jobId from URL params
+  formData.append("userId", userId); 
 
     try {
       const response = await axios.post(`${url}/api/job/apply-job`, formData, {
