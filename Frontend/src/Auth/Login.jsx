@@ -1,7 +1,8 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react' // ✅ 1. Import useContext
 import { Link, useNavigate } from 'react-router-dom'
-import { jwtDecode } from 'jwt-decode'   // ✅ keep named import
+import { jwtDecode } from 'jwt-decode'
+import { AppContext } from '../context/Appcontext' // ✅ 2. Import the context
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function Login() {
   })
 
   const navigate = useNavigate()
+  const { login } = useContext(AppContext); // ✅ 3. Get the login function from context
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -21,21 +23,20 @@ function Login() {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData)
 
       const token = res.data.token
-      console.log("Login API Response:", res.data)
 
       if (!token) {
         throw new Error("Token not found in response")
       }
 
-      // ✅ Decode token
       const decodedUser = jwtDecode(token)
-      console.log("Decoded User:", decodedUser)
+      
+      // ✅ 4. Call the context's login function
+      login(token);
 
-      // ✅ Save both token & userId in localStorage
-      localStorage.setItem('token', token)
+      // Save userId separately
       localStorage.setItem('userId', decodedUser.id || decodedUser._id)
 
-      // ✅ Role-based navigation
+      // Role-based navigation
       if (decodedUser.role === 'admin') {
         window.location.href = "http://localhost:5174/"
       } else if (decodedUser.role === 'recruiter') {
@@ -44,13 +45,14 @@ function Login() {
         navigate('/')
       }
 
-      setFormData({ email: "", password: "" }) 
+      setFormData({ email: "", password: "" })
     } catch (error) {
       console.error("Login failed:", error)
       alert("Login failed. Please check your credentials.")
     }
   }
 
+  // --- THIS IS YOUR ORIGINAL UI, UNCHANGED ---
   return (
     <>
       <div className='login h-screen bg-white'>
@@ -101,4 +103,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Login;

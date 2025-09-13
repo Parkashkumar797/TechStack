@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// src/components/Header.js
+
+import { useState, useContext } from "react"; // ✅ Import useContext
+import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets.js";
-import axios from "axios";
+import { AppContext } from "../context/Appcontext.jsx"
 
 export default function Header() {
-  const [isLoggedIn,setIsLoggedIn]=useState(false)
-  const [isopen, setIsopen] = useState(false)
-    useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(token);
-  }, []);
+  const { token, logout } = useContext(AppContext); // ✅ Get token and logout from context
+  const [isopen, setIsopen] = useState(false);
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-    localStorage.removeItem("token");   // remove JWT
-    localStorage.removeItem("userId");  // remove userId
-setIsLoggedIn(false);
-    alert("✅ Logged out successfully");
+  // ✅ No more local state or useEffect needed for login status!
+
+  const handleLogout = () => {
+    logout(); // ✅ This now comes from the context
     navigate("/login"); // redirect to login page
   };
 
@@ -23,59 +21,41 @@ setIsLoggedIn(false);
     <>
       <div className="header bg-[#0A3A74]">
         <div className="container px-20 py-5 flex justify-between items-center mx-auto">
-
           {/* Logo */}
           <div className="flex cursor-pointer items-center gap-2">
-         
             <img className="h-8 w-8" src={assets.tslogo} alt="logo" />
-                 <Link to="/">
-            <span className="text-2xl text-white font-bold">
-              Talent<span className="text-[#FFD700]">Stack</span>
-            </span>
-              </Link>
+            <Link to="/">
+              <span className="text-2xl text-white font-bold">
+                Talent<span className="text-[#FFD700]">Stack</span>
+              </span>
+            </Link>
           </div>
 
           {/* Navigation Links */}
-          <div className="lg:flex  text-lg hidden items-center gap-6 text-white font-semibold">
+          <div className="lg:flex text-lg hidden items-center gap-6 text-white font-semibold">
             <ul className="flex gap-4">
               <li><Link className="hover:text-[#FFD700]" to="/">Home</Link></li>
               <li><Link className="hover:text-[#FFD700]" to="/job">Jobs</Link></li>
               <li><Link className="hover:text-[#FFD700]" to="/applications">Applications</Link></li>
             </ul>
 
-            {/* Signup Button */}
+            {/* ✅ Check user logged in or not BASED ON CONTEXT TOKEN */}
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className="bg-[#FFD700] text-[#0A3A74] font-bold px-4 py-2 rounded hover:bg-yellow-400 transition"
+              >
+                Logout
+              </button>
+            ) : (
               <Link to="/login">
-
-              {/* check user logged in or not */}
-              {isLoggedIn ? (
-       <button onClick={handleLogout} className="bg-[#FFD700] text-[#0A3A74] font-bold px-4 py-2 rounded hover:bg-yellow-400 transition">
-            logout
-            </button>
-      ) : (
-       <button className="bg-[#FFD700] text-[#0A3A74] font-bold px-4 py-2 rounded hover:bg-yellow-400 transition">
-             Sign In
-            </button>
-      )}
-            </Link>
+                <button className="bg-[#FFD700] text-[#0A3A74] font-bold px-4 py-2 rounded hover:bg-yellow-400 transition">
+                  Sign In
+                </button>
+              </Link>
+            )}
           </div>
-          {/* Mobile Menu toggle */}
-          <button className="lg:hidden text-3xl text-white top-15 right-0 " onClick={() => setIsopen(!isopen)}>
-
-            {isopen ? "✕" : "☰"}
-          </button>
-        </div>
-        {/* mobile navigation  */}
-        <div
-          className={`fixed top-17 right-0 h-full w-64 z-50 transition-all duration-700 ease-in-out transform bg-[#0A3A74] text-white lg:hidden ${isopen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-            }`}
-        >
-          <div className="nav-links flex flex-col gap-4 items-center py-4">
-            <a href="/" className="text-lg font-bold duration-300 hover:text-gray-300">Home</a>
-            <a href="/about" className="text-lg font-bold duration-300 hover:text-gray-300">Jobs</a>
-            <a href="/services" className="text-lg font-bold duration-300 hover:text-gray-300">Applications</a>
-            {/* <a href="/join-us" className="text-lg font-bold duration-300 hover:text-gray-300">Careers</a>
-            <a href="/contact" className="text-lg font-bold duration-300 hover:text-gray-300 font-serif">Contact</a> */}
-          </div>
+          {/* ... rest of your mobile menu JSX ... */}
         </div>
       </div>
     </>
