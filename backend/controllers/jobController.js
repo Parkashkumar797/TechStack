@@ -5,12 +5,12 @@ import multer, { diskStorage } from "multer";
 
 // Company registers a job
 export const registeredCompany = async (req, res) => {
-  const { title, location, level, description } = req.body;
-  if (!title || !location || !level || !description) {
+  const { title, location, level, description,companyName } = req.body;
+  if (!title || !location || !level || !description||!companyName) {
     return res.json({ success: false, message: "Details are missing" });
   }
   try {
-    const company = new jobModel({ title, location, level, description });
+    const company = new jobModel({ title, location, level, description,companyName });
     await company.save();
     return res.json({ success: true, message: "Successfully Registered" });
   } catch (error) {
@@ -30,7 +30,6 @@ export const company = async (req, res) => {
 
 // User applies for a job
 export const userjob = async (req, res) => {
-  // Check if resume file exists
   if (!req.file) {
     return res.json({ success: false, message: "Resume file is required." });
   }
@@ -44,7 +43,6 @@ export const userjob = async (req, res) => {
   }
 
   try {
-    // 1️⃣ Save application in applyJobModel
     const application = new applyJobModel({
       name,
       email,
@@ -54,7 +52,6 @@ export const userjob = async (req, res) => {
     });
     await application.save();
 
-    // 2️⃣ Add jobId to user's appliedJobs array if not already added
     const user = await User.findById(userId);
     if (!user) return res.json({ success: false, message: "User not found" });
 
@@ -73,9 +70,14 @@ export const userjob = async (req, res) => {
   }
 };
 
+// ✅ Get applications of logged-in user
 export const getApplications = async (req, res) => {
   try {
-    const userId = req.body.userId; // ✅ middleware se set hua
+    const userId = req.user.userId; // ✅ from middleware
+
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "UserId missing" });
+    }
 
     const applications = await applyJobModel
       .find({ userId })
@@ -84,8 +86,6 @@ export const getApplications = async (req, res) => {
     res.json({ success: true, applications });
   } catch (error) {
     console.error("Error in getApplications:", error);
-    res
-      .status(500)
-      .json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };

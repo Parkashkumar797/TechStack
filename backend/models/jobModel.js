@@ -14,7 +14,7 @@ const jobSchema=mongoose.Schema({
   description:{
         type:String,required:true
     },
-    jobId: { type: mongoose.Schema.Types.ObjectId, ref: "Job" }
+    jobId: { type: mongoose.Schema.Types.ObjectId, ref: "Job" },
 
     // logo:{
     //     type:String,required:true
@@ -22,10 +22,10 @@ const jobSchema=mongoose.Schema({
     // category:{
     //     type:String,required:true
     // },
-    //    company:{
-    //     type:String,
-    //     required:true 
-    // }
+       companyName:{
+        type:String,
+        required:true 
+    }
 })
 const jobModel=mongoose.model("jobs",jobSchema)
 export default jobModel;

@@ -1,30 +1,33 @@
 import jwt from "jsonwebtoken";
 
 const userAuth = async (req, res, next) => {
-  const token =
-    req.cookies.token || req.headers.authorization?.split(" ")[1]; // ✅ token header se bhi lo
-
-  if (!token) {
-    return res
-      .status(401)
-      .json({ success: false, message: "Unauthorized user" });
-  }
-
   try {
-    const tokendecode = jwt.verify(token, process.env.SECRET_KEY);
+    let token = null;
 
-    if (tokendecode.id) {
-      req.user = { id: tokendecode.id }; // ✅ yahan req.user set karo
-      next();
-    } else {
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid token payload" });
+    // 1️⃣ Check for token in Authorization header
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
     }
+
+    // 2️⃣ Fallback to cookies (optional)
+    if (!token && req.cookies?.token) {
+      token = req.cookies.token;
+    }
+
+    if (!token) {
+      return res.status(401).json({ success: false, message: "Unauthorized: No token provided" });
+    }
+
+    // 3️⃣ Verify token
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    // 4️⃣ Attach user info to request
+    req.user = { userId: decoded.id };
+
+    next();
   } catch (err) {
-    res
-      .status(401)
-      .json({ success: false, message: "Token invalid: " + err.message });
+    console.error("Auth error:", err.message);
+    res.status(401).json({ success: false, message: "Unauthorized: " + err.message });
   }
 };
 

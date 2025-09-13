@@ -6,7 +6,7 @@ export default function CreateJob() {
     logo: "",
     title: "",
     level: "",
-    company: "",
+    companyName: "",
     location: "",
     category: "",
     description: "",
@@ -28,7 +28,7 @@ export default function CreateJob() {
         logo: "",
         title: "",
         level: "",
-        company: "",
+        companyName: "",
         location: "",
         category: "",
         description: "",
@@ -87,10 +87,10 @@ export default function CreateJob() {
 
           {/* Company */}
           <div>
-            <label className="block mb-1 font-medium">Company</label>
+            <label className="block mb-1 font-medium">CompanyName</label>
             <input
               type="text"
-              name="company"
+              name="companyName"
               value={formData.company}
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
