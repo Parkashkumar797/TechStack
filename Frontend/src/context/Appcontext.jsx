@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const AppContext = createContext();
 
@@ -25,7 +26,8 @@ export const AppContextProvider = (props) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     setToken(null);
-    alert("✅ Logged out successfully");
+    // alert("✅ Logged out successfully");
+    toast.success("Logged out successfully")
   };
 
   // Your existing useEffect for fetching jobs

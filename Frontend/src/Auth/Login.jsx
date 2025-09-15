@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react' // ✅ 1. Import useContext
 import { Link, useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import { AppContext } from '../context/Appcontext' // ✅ 2. Import the context
-
+import { toast } from 'react-toastify';
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -44,7 +44,7 @@ function Login() {
       } else {
         navigate('/')
       }
-
+toast.success("Logged in Successfully")
       setFormData({ email: "", password: "" })
     } catch (error) {
       console.error("Login failed:", error)
