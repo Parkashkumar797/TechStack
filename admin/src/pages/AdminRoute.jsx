@@ -4,6 +4,9 @@ import AdminMaster from "./AdminMaster";
 import AdminPanel from "./AdminPanel";
 import AdminManageUsers from "./AdminManageUsers";
 import AdminManageCompany from "./AdminManageCompany";
+import CompanyDetail from "./CompanyDetail";
+import AdminManageJobs from "./AdminManageJob";
+import EditCompany from "./EditCompany";
 
 export default function AdminRoute() {
   return (
@@ -12,6 +15,9 @@ export default function AdminRoute() {
         <Route path="/" element={<AdminPanel />} />
         <Route path="/admin/users" element={<AdminManageUsers />} />
         <Route path="/admin/companies" element={<AdminManageCompany />} />
+        <Route path="/admin/company/:id" element={<CompanyDetail />} />
+        <Route path="/admin/jobs" element={<AdminManageJobs />} />
+         <Route path="/admin/company/edit/:id" element={<EditCompany/>} />
       </Route>
     </Routes>
   );

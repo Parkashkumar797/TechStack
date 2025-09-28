@@ -15,3 +15,13 @@ export const userProfile = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await userModel.find().select("-password"); // exclude password
+    res.json(users);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ message: "Error fetching users" });
+  }
+};
+

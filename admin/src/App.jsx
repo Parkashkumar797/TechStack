@@ -2,7 +2,12 @@
 import AdminRoute from "./pages/AdminRoute";
 
 function App() {
-  return <AdminRoute />;
+  return (
+  <>
+  <AdminRoute />;
+  
+  </>
+  )
 }
 
 export default App;

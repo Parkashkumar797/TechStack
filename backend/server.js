@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 import authRouter from "./routes/authRoute.js";
 import companyRoute from "./routes/companyRoute.js";
 import userRoute from "./routes/userRoute.js";
+import adminRoute from "./routes/adminRoute.js";
 // import auth from "./middleware/authMiddleware.js";
 // Load environment variables
 dotenv.config()
@@ -28,6 +29,7 @@ app.use('/api/auth', authRouter)
 app.use("/api/job",jobRoute)
 app.use("/api/company",companyRoute)
 app.use("/api/user",userRoute)
+app.use("/api/admin", adminRoute);
 app.use('/images', express.static('Upload'))
 app.get("/", (req, res) => {res.send("API Working Successfully ")})
 
