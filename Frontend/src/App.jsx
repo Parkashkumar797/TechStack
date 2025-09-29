@@ -18,6 +18,8 @@ import Application from './Pages/Application';
 import Createjob from './Pages/Creatrejob';
 import CompanyRegister from './Pages/CompanyRegister';
 import PostJob from './Pages/Postjob';
+import AdminMaster from './layouts/AdminMaster';
+import CompanyApplication from './company/ManageUser.jsx/CompanyApplications';
 function App() {
 
 
@@ -30,19 +32,28 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/job-category" element={<Jobcategories/>} />
-          <Route path="/popular-jobs" element={<Popularjob/>} />
-          <Route path="/apply-job/:id" element={<Applyjob/>} />
+          <Route path="/job-category" element={<Jobcategories />} />
+          <Route path="/popular-jobs" element={<Popularjob />} />
+          <Route path="/apply-job/:id" element={<Applyjob />} />
           {/* <Route path="/featured-job" element={<FeaturedJobs/>} /> */}
-          <Route path="/why-choose" element={<WhyChooseTalentStack/>} />
-          <Route path="/testimonial" element={<Testimonials/>} />
-          <Route path="/job" element={<Job/>} />
-          <Route path="/applications" element={<Application/>} />
-          <Route path="/create-job" element={<Createjob/>} />
-          <Route path="/register-company" element={<CompanyRegister/>} />
-          <Route path="/post-job" element={<PostJob/>} />
-          <Route path="/*" element={<Error/>} />
+          <Route path="/why-choose" element={<WhyChooseTalentStack />} />
+          <Route path="/testimonial" element={<Testimonials />} />
+          <Route path="/job" element={<Job />} />
+          <Route path="/applications" element={<Application />} />
+          <Route path="/create-job" element={<Createjob />} />
+          <Route path="/register-company" element={<CompanyRegister />} />
+          <Route path="/post-job" element={<PostJob />} />
+          <Route path="/*" element={<Error />} />
           {/* <Route path="/" element={<Error/>} /> */}
+        </Route>
+
+        <Route path='/company' element={<AdminMaster />} >
+
+          {/* <Route path="/admin" element={<Dashboard />} /> */}
+
+          <Route path="/company/applications" element={<CompanyApplication />} />
+
+
         </Route>
       </Routes>
     </>
