@@ -8,25 +8,29 @@ const AdminDashboard = () => {
     companies: 0,
   });
 
-  // useEffect(() => {
-  //   fetchStats();
-  // }, []);
+  // Fetch stats from backend when component mounts
+  useEffect(() => {
+    fetchStats();
+  }, []);
 
-  // const fetchStats = async () => {
-  //   try {
-  //     const jobsRes = await axios.get("http://localhost:5000/api/companies");
-  //     const usersRes = await axios.get("http://localhost:5000/api/users");
-  //     const companiesRes = await axios.get("http://localhost:5000/api/companylist");
+  const fetchStats = async () => {
+    try {
+      // Fetch jobs
+      const jobsRes = await axios.get("http://localhost:5000/api/jobs");
+      // Fetch users
+      const usersRes = await axios.get("http://localhost:5000/api/users");
+      // Fetch companies
+      const companiesRes = await axios.get("http://localhost:5000/api/companies");
 
-  //     setStats({
-  //       jobs: jobsRes.data.length,
-  //       users: usersRes.data.length,
-  //       companies: companiesRes.data.length,
-  //     });
-  //   } catch (err) {
-  //     console.error("Error fetching stats:", err);
-  //   }
-  // };
+      setStats({
+        jobs: jobsRes.data.length,
+        users: usersRes.data.length,
+        companies: companiesRes.data.length,
+      });
+    } catch (err) {
+      console.error("Error fetching stats:", err);
+    }
+  };
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
