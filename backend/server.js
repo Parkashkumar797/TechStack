@@ -9,7 +9,6 @@ import authRouter from "./routes/authRoute.js";
 import companyRoute from "./routes/companyRoute.js";
 import userRoute from "./routes/userRoute.js";
 import adminRoute from "./routes/adminRoute.js";
-import applicationRoutes from "./routes/applicationRoutes.js";
 // import auth from "./middleware/authMiddleware.js";
 // Load environment variables
 dotenv.config()
@@ -32,7 +31,6 @@ app.use("/api/company",companyRoute)
 app.use("/api/user",userRoute)
 app.use("/api/admin", adminRoute);
 app.use('/images', express.static('Upload'))
-app.use("/api/applications", applicationRoutes);
 app.get("/", (req, res) => {res.send("API Working Successfully ")})
 
 app.listen(PORT, console.log(`server has startes successfully at port ${PORT}`)
