@@ -1,35 +1,31 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+const jobSchema=mongoose.Schema({
+    title:{
+        type:String,
+        // enum:['Programming','DataScience','Designing','Networking','Management','Marketing','Cybersecurity'],
+        required:true
+    },
+      location:{
+        type:String,required:true
+    },
+  level:{
+        type:String,required:true
+    },
+  description:{
+        type:String,required:true
+    },
+    jobId: { type: mongoose.Schema.Types.ObjectId, ref: "Job" },
 
-const jobSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  location: {
-    type: String,
-    required: true,
-  },
-  level: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-
-  // Corrected reference to company model
-  company: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "company", // 👈 must match the name in mongoose.model("company", ...)
-    required: true,
-  },
-
-  postedOn: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const JobModel = mongoose.model("job", jobSchema);
-export default JobModel;
+    // logo:{
+    //     type:String,required:true
+    // },
+    // category:{
+    //     type:String,required:true
+    // },
+       companyName:{
+        type:String,
+        required:true 
+    }
+})
+const jobModel=mongoose.model("jobs",jobSchema)
+export default jobModel;
