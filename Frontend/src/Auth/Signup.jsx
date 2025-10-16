@@ -52,7 +52,7 @@ function Signup() {
             </div>
             <div>
               <label className='block mb-1 text-lg' htmlFor="">Email</label>
-              <input className="rounded-xl focus:outline-none p-2 bg-white w-full" name="email" type="text" placeholder='Email' value={formData.email} onChange={handleChange} required />
+              <input className="rounded-xl focus:outline-none p-2 bg-white w-full" name="email" type="email" placeholder='Email' value={formData.email} onChange={handleChange} required />
             </div>
             <div>
               <label className='block mb-1 text-lg' htmlFor="">Password</label>

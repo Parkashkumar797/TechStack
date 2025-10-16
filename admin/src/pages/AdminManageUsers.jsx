@@ -19,6 +19,18 @@ export default function AdminManageUsers() {
     };
     fetchUsers();
   }, []);
+const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+  try {
+    await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
+    setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+    alert("User deleted successfully!");
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    alert("Failed to delete user. Please try again.");
+  }
+};
 
   const filteredUsers = users.filter(
     (u) =>
@@ -77,9 +89,13 @@ export default function AdminManageUsers() {
                     <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                       View
                     </button>
-                    <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                      Delete
-                    </button>
+                 <button
+  onClick={() => handleDelete(u._id)}
+  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+>
+  Delete
+</button>
+
                   </td>
                 </tr>
               ))
