@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminManageUsers() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
+  // 🧩 Fetch Users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -19,19 +22,45 @@ export default function AdminManageUsers() {
     };
     fetchUsers();
   }, []);
+
+  // 🗑️ Delete User
 const handleDelete = async (id) => {
+  console.log("Deleting user id:", id); // 🔹 check id
   if (!window.confirm("Are you sure you want to delete this user?")) return;
 
   try {
     await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
-    setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+   setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+
     alert("User deleted successfully!");
   } catch (err) {
     console.error("Error deleting user:", err);
     alert("Failed to delete user. Please try again.");
   }
 };
+const handleUpdate = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.put(
+      `http://localhost:5000/api/admin/users/${userId}`,
+      { name, email, role }
+    );
+    console.log("User updated:", res.data);
+    alert("User updated successfully!");
+    navigate("/admin/manage-users");
+  } catch (err) {
+    console.error("Error updating user:", err);
+    alert("Failed to update user");
+  }
+};
 
+
+  // ✏️ Edit User
+  const handleEdit = (id) => {
+    navigate(`/admin/edit-user/${id}`); // Navigate to Edit User page
+  };
+
+  // 🔍 Filter
   const filteredUsers = users.filter(
     (u) =>
       u.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -86,16 +115,18 @@ const handleDelete = async (id) => {
                     {new Date(u.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-3 border space-x-2">
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                      View
+                    <button
+                      onClick={() => handleEdit(u._id)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    >
+                      Edit
                     </button>
-                 <button
-  onClick={() => handleDelete(u._id)}
-  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
->
-  Delete
-</button>
-
+                    <button
+                      onClick={() => handleDelete(u._id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))

@@ -8,11 +8,11 @@ export default function AdminManageJobs() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
-  // Fetch jobs from backend
+  // Fetch jobs from backend with populated company name
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/job/jobs"); // backend API
+        const res = await axios.get("http://localhost:5000/api/job/jobs");
         console.log("Jobs fetched:", res.data);
         setJobs(res.data);
       } catch (err) {
@@ -26,7 +26,7 @@ export default function AdminManageJobs() {
   const filteredJobs = jobs.filter(
     (job) =>
       job.title?.toLowerCase().includes(search.toLowerCase()) ||
-      job.companyName?.toLowerCase().includes(search.toLowerCase()) ||
+      job.company?.name?.toLowerCase().includes(search.toLowerCase()) ||
       job.location?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -83,7 +83,7 @@ export default function AdminManageJobs() {
                   className="border-b hover:bg-gray-100 transition"
                 >
                   <td className="py-3 px-4 font-semibold">{job.title}</td>
-                  <td className="py-3 px-4">{job.companyName}</td>
+                  <td className="py-3 px-4">{job.company?.name || "N/A"}</td>
                   <td className="py-3 px-4">{job.location || "N/A"}</td>
                   <td className="py-3 px-4">{job.level || "N/A"}</td>
                   <td className="py-3 px-4 text-sm text-gray-600">

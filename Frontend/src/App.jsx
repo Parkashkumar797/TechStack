@@ -37,7 +37,7 @@ function App() {
           <Route path="/why-choose" element={<WhyChooseTalentStack/>} />
           <Route path="/testimonial" element={<Testimonials/>} />
           <Route path="/job" element={<Job/>} />
-          <Route path="/applications" element={<Application/>} />
+          <Route path="/applications"  element={<Application/>} />
           <Route path="/create-job" element={<Createjob/>} />
           <Route path="/register-company" element={<CompanyRegister/>} />
           <Route path="/post-job" element={<PostJob/>} />
