@@ -33,7 +33,7 @@ export default function EditUser() {
     try {
       await axios.put(`http://localhost:5000/api/admin/users/${id}`, formData);
       alert("User updated successfully!");
-      navigate("/admin/manage-users");
+      navigate("/admin/users");
     } catch (err) {
       console.error("Error updating user:", err);
       alert("Failed to update user");

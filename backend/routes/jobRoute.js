@@ -1,28 +1,37 @@
 import express from "express";
+
 import {
-  getAllJobs, // Changed from 'company'
+
+  company,
+
   updateJob,
+
   deleteJob,
+
   getJobById,
-  createJob,
+
+  registeredCompany,
+
 } from "../controllers/jobController.js";
 
-const router = express.Router();
 
-// GET all jobs for admin
-router.get("/jobs", getAllJobs); // Used the correct function name 'getAllJobs'
 
-// GET a single job by ID
-router.get("/:id", getJobById);
+const jobRoute = express.Router();
 
-// POST a new job for a company
-router.post("/company", createJob);
 
-// UPDATE a job by ID
-router.put("/:id", updateJob);
 
-// DELETE a job by ID
-router.delete("/:id", deleteJob);
+// Admin routes
 
-export default router;
+jobRoute.get("/jobs", company); // get all jobs
 
+jobRoute.get("/:id", getJobById); // get single job
+
+jobRoute.post("/company", registeredCompany); // create job
+
+jobRoute.put("/:id", updateJob); // update job
+
+jobRoute.delete("/:id", deleteJob); // delete job
+
+
+
+export default jobRoute;
