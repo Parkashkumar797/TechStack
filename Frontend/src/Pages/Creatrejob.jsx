@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateJob() {
   const [formData, setFormData] = useState({
@@ -12,20 +13,19 @@ export default function CreateJob() {
     description: "",
   });
 
-  // State to handle success/error notifications
-  const [notification, setNotification] = useState({ message: '', type: '' });
+  const [notification, setNotification] = useState({ message: "", type: "" });
+  const navigate = useNavigate();
 
-  const url = "http://localhost:5000/api/job/company";
+  const token = sessionStorage.getItem("token");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Effect to clear the notification after 3 seconds
   useEffect(() => {
     if (notification.message) {
       const timer = setTimeout(() => {
-        setNotification({ message: '', type: '' });
+        setNotification({ message: "", type: "" });
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -34,46 +34,59 @@ export default function CreateJob() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(url, formData);
-      console.log("Created successfully", formData);
-      setNotification({ message: 'Job created successfully!', type: 'success' });
-      // Reset the form after successful submission
-      setFormData({
-        logo: "",
-        title: "",
-        level: "",
-        companyName: "",
-        location: "",
-        category: "",
-        description: "",
-      });
+      if (!token) {
+        setNotification({ message: "Please login first!", type: "error" });
+        return navigate("/login");
+      }
+
+      // Create job with backend using logged-in recruiter's email
+      const res = await axios.post(
+        "http://localhost:5000/api/job/company",
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (res.data.success) {
+        setNotification({ message: "Job created successfully!", type: "success" });
+
+        // Reset form
+        setFormData({
+          logo: "",
+          title: "",
+          level: "",
+          companyName: "",
+          location: "",
+          category: "",
+          description: "",
+        });
+      }
     } catch (err) {
-      console.error("Error creating job:", err);
-      setNotification({ message: 'Failed to create job. Please try again.', type: 'error' });
+      console.error("Error creating job:", err.response?.data || err);
+      setNotification({ message: "Failed to create job.", type: "error" });
     }
   };
 
-  // Define base styles for inputs to keep the code clean
-  const inputStyle = "w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition placeholder-gray-400 text-gray-800";
-  
+  const inputStyle =
+    "w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition placeholder-gray-400 text-gray-800";
+
   return (
-    // Changed to a light background to match your site's theme
     <div className="bg-slate-50 min-h-screen text-gray-800 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-md border border-gray-200">
-        <h1 className="text-3xl font-bold mb-6 text-blue-600">
-          Post a New Job Opening
-        </h1>
+        <h1 className="text-3xl font-bold mb-6 text-blue-600">Post a New Job Opening</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
-          
-          {/* Notification Message Area */}
           {notification.message && (
-            <div className={`p-4 rounded-lg text-center font-medium ${notification.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            <div
+              className={`p-4 rounded-lg text-center font-medium ${
+                notification.type === "success"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
               {notification.message}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Logo URL */}
             <div>
               <label className="block mb-2 font-semibold">Logo URL</label>
               <input
@@ -86,7 +99,6 @@ export default function CreateJob() {
               />
             </div>
 
-            {/* Job Title */}
             <div>
               <label className="block mb-2 font-semibold">Job Title</label>
               <input
@@ -95,12 +107,11 @@ export default function CreateJob() {
                 value={formData.title}
                 onChange={handleChange}
                 className={inputStyle}
-                placeholder="e.g., Senior React Developer"
+                placeholder="Senior React Developer"
                 required
               />
             </div>
 
-            {/* Job Level */}
             <div>
               <label className="block mb-2 font-semibold">Job Level</label>
               <input
@@ -109,25 +120,23 @@ export default function CreateJob() {
                 value={formData.level}
                 onChange={handleChange}
                 className={inputStyle}
-                placeholder="e.g., Intern, Junior, Senior"
+                placeholder="Intern, Junior, Senior"
               />
             </div>
 
-            {/* Company Name */}
             <div>
               <label className="block mb-2 font-semibold">Company Name</label>
               <input
                 type="text"
                 name="companyName"
-                value={formData.companyName} // <-- BUG FIX: Was formData.company
+                value={formData.companyName}
                 onChange={handleChange}
                 className={inputStyle}
-                placeholder="Enter company name"
+                placeholder="Company Name"
                 required
               />
             </div>
 
-            {/* Location */}
             <div>
               <label className="block mb-2 font-semibold">Location</label>
               <input
@@ -136,12 +145,11 @@ export default function CreateJob() {
                 value={formData.location}
                 onChange={handleChange}
                 className={inputStyle}
-                placeholder="e.g., Bangalore, Remote"
+                placeholder="Bangalore, Remote"
                 required
               />
             </div>
 
-            {/* Category */}
             <div>
               <label className="block mb-2 font-semibold">Category</label>
               <input
@@ -150,13 +158,12 @@ export default function CreateJob() {
                 value={formData.category}
                 onChange={handleChange}
                 className={inputStyle}
-                placeholder="e.g., Web Development"
+                placeholder="Web Development"
                 required
               />
             </div>
           </div>
 
-          {/* Description */}
           <div>
             <label className="block mb-2 font-semibold">Job Description</label>
             <textarea
@@ -165,12 +172,11 @@ export default function CreateJob() {
               onChange={handleChange}
               rows="6"
               className={inputStyle}
-              placeholder="Write the job responsibilities, requirements, and benefits here..."
+              placeholder="Job responsibilities, requirements, and benefits"
               required
             ></textarea>
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-end">
             <button
               type="submit"

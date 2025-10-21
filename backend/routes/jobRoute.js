@@ -1,37 +1,32 @@
 import express from "express";
-
 import {
-
-  company,
-
-  updateJob,
-
-  deleteJob,
-
+  getAllJobs,
   getJobById,
-
-  registeredCompany,
-
+  createJob,
+  updateJob,
+  deleteJob,
+  getJobsByCompany,
 } from "../controllers/jobController.js";
-
-
+import userAuth from "../middleware/authMiddleware.js";
 
 const jobRoute = express.Router();
 
+// Get all jobs (public)
+jobRoute.get("/jobs", getAllJobs);
 
+// Get single job by ID
+jobRoute.get("/:id", getJobById);
 
-// Admin routes
+// Create a job (company must be logged in)
+jobRoute.post("/create", userAuth, createJob);
 
-jobRoute.get("/jobs", company); // get all jobs
+// Update a job
+jobRoute.put("/:id", userAuth, updateJob);
 
-jobRoute.get("/:id", getJobById); // get single job
+// Delete a job
+jobRoute.delete("/:id", userAuth, deleteJob);
 
-jobRoute.post("/company", registeredCompany); // create job
-
-jobRoute.put("/:id", updateJob); // update job
-
-jobRoute.delete("/:id", deleteJob); // delete job
-
-
+// Get jobs of logged-in company
+jobRoute.get("/my-jobs", userAuth, getJobsByCompany);
 
 export default jobRoute;
