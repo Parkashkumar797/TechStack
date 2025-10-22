@@ -1,32 +1,25 @@
 import express from "express";
 import {
-  getAllJobs,
-  getJobById,
-  createJob,
+  company, // get all jobs
   updateJob,
   deleteJob,
-  getJobsByCompany,
+  getJobById,
+  registeredCompany, // create job
+  getJobsByCompany // ✅ New controller to get jobs created by specific company
 } from "../controllers/jobController.js";
-import userAuth from "../middleware/authMiddleware.js";
+
+import userAuth from "../middleware/authMiddleware.js"; // ✅ add JWT protection
 
 const jobRoute = express.Router();
 
-// Get all jobs (public)
-jobRoute.get("/jobs", getAllJobs);
+// Public routes
+jobRoute.get("/jobs", company); // ✅ get all jobs
+jobRoute.get("/:id", getJobById); // ✅ get single job
 
-// Get single job by ID
-jobRoute.get("/:id", getJobById);
-
-// Create a job (company must be logged in)
-jobRoute.post("/create", userAuth, createJob);
-
-// Update a job
-jobRoute.put("/:id", userAuth, updateJob);
-
-// Delete a job
-jobRoute.delete("/:id", userAuth, deleteJob);
-
-// Get jobs of logged-in company
-jobRoute.get("/my-jobs", userAuth, getJobsByCompany);
+// Company routes (protected)
+jobRoute.post("/company", userAuth, registeredCompany); // ✅ create job
+jobRoute.get("/my-jobs", userAuth, getJobsByCompany);   // ✅ get jobs created by logged-in company
+jobRoute.put("/:id", userAuth, updateJob);              // ✅ update job
+jobRoute.delete("/:id", userAuth, deleteJob);           // ✅ delete job
 
 export default jobRoute;

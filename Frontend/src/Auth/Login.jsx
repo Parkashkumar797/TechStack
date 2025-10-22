@@ -34,13 +34,16 @@ function Login() {
       login(token);
 
       // Save userId separately
-      localStorage.setItem('userId', decodedUser.id || decodedUser._id)
 
+// Save data in sessionStorage
+sessionStorage.setItem("token", token);
+sessionStorage.setItem("role", decodedUser.role);
+sessionStorage.setItem("userId", decodedUser.id || decodedUser._id);
       // Role-based navigation
       if (decodedUser.role === 'admin') {
         window.location.href = "http://localhost:5174/"
-      } else if (decodedUser.role === 'recruiter') {
-        navigate('/recruiter-dashboard')
+      } else if (decodedUser.role === 'recruiter' || decodedUser.role === 'company' ) {
+        navigate('/company/dashboard')
       } else {
         navigate('/')
       }

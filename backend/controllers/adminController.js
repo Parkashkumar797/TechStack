@@ -1,82 +1,32 @@
-import usermodel from "../models/userModel.js"
+import usermodel from "../models/userModel.js";
+import Company from "../models/companyModel.js";
+import Job from "../models/jobModel.js";
+// getAllUsers
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await usermodel.find().select("-password");    // Exclude passwords
+    const users = await usermodel.find().select("-password");
     res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }         
-}
-// export const deleteUser=async(req,res)=>{
-//     try {
-        
-//     } catch (error) {
-//         res.status(500).json({message:"Server error"})
-//     }
-// }
-export const updateUserRole=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.status(500).json({message:"internal sever error"})
-    }
-}
-export const getAllCompanies=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.status(500).json({messagel:"error.message"})
-    }
-}
-export const approveCompany=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.staus(500).json({success:false,message:error.message})
-    }
-}
-export const deleteCompany=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.staus(500).json({success:false,message:error.message})
-    }
-}
-export const getAllJobs=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.staus(500).json({success:false,message:error.message})
-    }
-}
-export const deleteJob=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.staus(500).json({success:false,message:error.message})
-    }
-}
-export const updateUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedUser = await usermodel.findByIdAndUpdate(id, req.body, { new: true });
-    if (!updatedUser) return res.status(404).json({ message: "User not found" });
-    res.status(200).json(updatedUser);
   } catch (error) {
-    console.error("Error updating user:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
   }
 };
 
-export const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  console.log("Received delete request for user:", id); // 🔹 check backend
+// getAllCompanies
+export const getAllCompanies = async (req, res) => {
   try {
-    const deletedUser = await usermodel.findByIdAndDelete(id);
-    if (!deletedUser) return res.status(404).json({ message: "User not found" });
-    res.status(200).json({ message: "User deleted successfully" });
+    const companies = await Company.find();
+    res.status(200).json(companies);
   } catch (error) {
-    console.error("Error deleting user:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// getAllJobs
+export const getAllJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find();
+    res.status(200).json(jobs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

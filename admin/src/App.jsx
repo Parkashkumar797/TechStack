@@ -3,10 +3,10 @@ import AdminRoute from "./pages/AdminRoute";
 
 function App() {
   return (
-  <>
-  <AdminRoute />;
-  
-  </>
+    <>
+      <AdminRoute />
+
+    </>
   )
 }
 

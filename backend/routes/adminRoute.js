@@ -1,9 +1,15 @@
 import express from "express";
-import { getAllUsers, updateUser } from "../controllers/adminController.js";
+import {
+  getAllUsers,
+  getAllCompanies,
+  getAllJobs,
+} from "../controllers/adminController.js";
 
-const adminRoute = express.Router();
+const router = express.Router();
 
-// GET all users
-adminRoute.get("/users", getAllUsers);
-adminRoute.put("/users/:id", updateUser);
-export default adminRoute;
+// For Admin Dashboard stats
+router.get("/users", getAllUsers);
+router.get("/companies", getAllCompanies);
+router.get("/jobs", getAllJobs);
+
+export default router;

@@ -1,98 +1,121 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function CompanyDashboard() {
-  const [companyProfile, setCompanyProfile] = useState(null);
-  const [myJobs, setMyJobs] = useState([]);
+const CompanyDashboard = () => {
+  const [company, setCompany] = useState(null);
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const token = sessionStorage.getItem("token");
-        if (!token) return navigate("/login"); // redirect if not logged in
-
-        // 1️⃣ Fetch company profile of logged-in recruiter
-        const profileRes = await axios.get(
-          "http://localhost:5000/api/company/profile/me",
-          {
+        const [companyRes, jobsRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/company/profile", {
             headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        if (!profileRes.data.success) {
-          // If no company, redirect to create company profile page
-          return navigate("/create-company");
-        }
-
-        setCompanyProfile(profileRes.data.company);
-
-        // 2️⃣ Fetch jobs created by this company
-        const jobsRes = await axios.get(
-          `http://localhost:5000/api/job/my-jobs`,
-          {
+          }),
+          axios.get("http://localhost:5000/api/job/my-jobs", {
             headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+          }),
+        ]);
 
-        setMyJobs(jobsRes.data.jobs || []);
-        setLoading(false);
+        setCompany(companyRes.data.company);
+        setJobs(jobsRes.data.jobs || []);
       } catch (error) {
-        console.error(
-          "Error loading dashboard:",
-          error.response?.data || error
-        );
+        console.error("Error loading dashboard:", error);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchDashboardData();
-  }, [navigate]);
+  }, [token]);
 
-  if (loading) return <div className="p-6 text-center">Loading dashboard...</div>;
-
-  if (!companyProfile)
-    return (
-      <div className="p-6 text-center text-red-600">
-        No company profile found. Please create one.
-      </div>
-    );
+  if (loading)
+    return <p className="text-center mt-10 text-gray-500">Loading Dashboard...</p>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold mb-4">Company Dashboard</h2>
+    <div className="min-h-screen bg-gray-100 py-10 px-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-blue-700">
+            Welcome, {company?.name || "Company"}
+          </h1>
+          <Link
+            to="/create-job"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+          >
+            + Create New Job
+          </Link>
+        </div>
 
-      {/* Company Profile */}
-      <div className="bg-gray-100 rounded-lg p-4 mb-6 shadow">
-        <h3 className="text-2xl font-semibold mb-2">{companyProfile.name}</h3>
-        <p><strong>Email:</strong> {companyProfile.email}</p>
-        <p><strong>Website:</strong> {companyProfile.website || "N/A"}</p>
-        <p><strong>Description:</strong> {companyProfile.description || "No description"}</p>
-      </div>
+        {/* Company Info Card */}
+        <div className="bg-white p-6 rounded-xl shadow-md mb-8">
+          <h2 className="text-xl font-semibold mb-3 text-gray-800">Company Profile</h2>
+          <p><strong>Email:</strong> {company?.email}</p>
+          <p><strong>Website:</strong> {company?.website || "Not added"}</p>
+          <p><strong>Description:</strong> {company?.description || "No description provided"}</p>
+          <Link
+            to="/company-profile"
+            className="inline-block mt-4 text-blue-600 hover:underline"
+          >
+            Edit Profile →
+          </Link>
+        </div>
 
-      {/* My Jobs Section */}
-      <div>
-        <h3 className="text-2xl font-semibold mb-3">My Jobs</h3>
-        {myJobs.length > 0 ? (
-          <ul className="space-y-3">
-            {myJobs.map((job) => (
-              <li key={job._id} className="bg-white p-4 rounded-lg shadow">
-                <h4 className="text-xl font-semibold">{job.title}</h4>
-                <p><strong>Level:</strong> {job.level}</p>
-                <p><strong>Location:</strong> {job.location}</p>
-                <p><strong>Description:</strong> {job.description}</p>
-                <p><strong>Created By:</strong> {job.companyEmail}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-600">No jobs created yet.</p>
-        )}
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white p-5 rounded-xl shadow-md text-center">
+            <h3 className="text-gray-500 text-sm">Total Jobs Posted</h3>
+            <p className="text-3xl font-bold text-blue-700">{jobs.length}</p>
+          </div>
+          <div className="bg-white p-5 rounded-xl shadow-md text-center">
+            <h3 className="text-gray-500 text-sm">Active Jobs</h3>
+            <p className="text-3xl font-bold text-green-600">
+              {jobs.filter((j) => j.status !== "closed").length}
+            </p>
+          </div>
+          <div className="bg-white p-5 rounded-xl shadow-md text-center">
+            <h3 className="text-gray-500 text-sm">Applications</h3>
+            <p className="text-3xl font-bold text-purple-600">0</p>
+          </div>
+        </div>
+
+        {/* Recent Jobs */}
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">Recently Posted Jobs</h2>
+          {jobs.length === 0 ? (
+            <p className="text-gray-500">No jobs posted yet.</p>
+          ) : (
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="border-b">
+                  <th className="p-2">Title</th>
+                  <th className="p-2">Location</th>
+                  <th className="p-2">Level</th>
+                  <th className="p-2">Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.slice(-5).reverse().map((job) => (
+                  <tr key={job._id} className="border-b hover:bg-gray-50">
+                    <td className="p-2 font-medium">{job.title}</td>
+                    <td className="p-2">{job.location}</td>
+                    <td className="p-2 capitalize">{job.level}</td>
+                    <td className="p-2 text-gray-500">
+                      {new Date(job.createdAt).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default CompanyDashboard;
