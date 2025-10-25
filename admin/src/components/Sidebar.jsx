@@ -1,7 +1,35 @@
 // src/components/Sidebar.jsx
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Sidebar({ onLogout }) {
+export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // ✅ Remove all stored authentication and user data
+    const keysToRemove = [
+      "adminToken",
+      "token",
+      "user",
+      "company",
+      "companyInfo",
+    ];
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    });
+
+    // ✅ Optional: Clear entire storage (if safe for your app)
+    // localStorage.clear();
+    // sessionStorage.clear();
+
+    // ✅ Redirect to frontend login page
+    navigate("http://localhost:5173/login", { replace: true });
+
+    // OR, if using separate apps (frontend/admin running separately):
+    // window.location.href = "http://localhost:5173/login";
+  };
+
   const linkClass =
     "block px-4 py-3 rounded text-base font-medium hover:bg-blue-600 hover:text-white transition";
 
@@ -31,7 +59,7 @@ export default function Sidebar({ onLogout }) {
       {/* Bottom Section - Logout */}
       <div className="p-4 border-t border-gray-700">
         <button
-          onClick={onLogout}
+          onClick={handleLogout}
           className="w-full px-4 py-3 bg-red-600 text-white text-base font-medium rounded hover:bg-red-700 transition"
         >
           Logout

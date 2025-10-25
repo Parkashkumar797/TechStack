@@ -24,6 +24,7 @@ import CompanyHeader from './layouts/CompanyHeader';
 import CompanyProfile from './company/CompanyProfile';
 import MyJobs from './company/MyJobs';
 import CompanyDashboard from './company/CompanyDashboard';
+import ProtectedRoute from './Pages/ProtectedRoute';
 function App() {
   return (
     <>
@@ -45,14 +46,15 @@ function App() {
           {/* <Route path="/" element={<Error/>} /> */}
         </Route>
         <Route path="/company" element={<CompanyMaster />}>
-          <Route path='/company' element={<CompanyHome />} />
-          <Route path='/company/header' element={<CompanyHeader />} />
-          <Route path="/company/dashboard" element={<CompanyDashboard />} />
-                    <Route path="/company/post-job" element={<PostJob />} />
-          <Route path="/company/jobs" element={<MyJobs />} />
-          <Route path="/company/create-job" element={<Createjob />} />
-          <Route path="/company/profile" element={<CompanyProfile />} />
-        </Route>
+          <Route path="/company/dashboard" element={<CompanyDashboard />}/>
+            <Route path='/company' element={<CompanyHome />} />
+            <Route path='/company/header' element={<CompanyHeader />} />
+            <Route path="/company/dashboard" element={<ProtectedRoute Component={CompanyDashboard} />} />
+            <Route path="/company/post-job" element={<PostJob />} />
+            <Route path="/company/jobs" element={<MyJobs />} />
+            <Route path="/company/create-job" element={<Createjob />} />
+            <Route path="/company/profile" element={<CompanyProfile />} />
+          </Route>
       </Routes>
     </>
   )
