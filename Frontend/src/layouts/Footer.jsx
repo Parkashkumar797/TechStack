@@ -31,7 +31,7 @@ export default function Footer() {
               <li><Link to="/" className="hover:text-[#FFD700]">Home</Link></li>
               <li><Link to="/job" className="hover:text-[#FFD700]">Jobs</Link></li>
               <li><Link to="/popular-jobs" className="hover:text-[#FFD700]">Popular Jobs</Link></li>
-              <li><Link to="/job-category" className="hover:text-[#FFD700]">Categories</Link></li>
+              <li><Link to="/#" className="hover:text-[#FFD700]">Categories</Link></li>
             </ul>
           </div>
 
@@ -39,8 +39,8 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4 text-[#FFD700]">For Employers</h3>
             <ul className="space-y-2 text-gray-200">
-              <li><Link to="/register-company" className="hover:text-[#FFD700]">Register Company</Link></li>
-              <li><Link to="/post-job" className="hover:text-[#FFD700]">Post a Job</Link></li>
+              <li><Link to="/#" className="hover:text-[#FFD700]">Register Company</Link></li>
+              <li><Link to="/#" className="hover:text-[#FFD700]">Post a Job</Link></li>
               <li><Link to="/applications" className="hover:text-[#FFD700]">Applications</Link></li>
             </ul>
           </div>

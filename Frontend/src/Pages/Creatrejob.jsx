@@ -16,7 +16,13 @@ export default function CreateJob() {
   const [notification, setNotification] = useState({ message: "", type: "" });
   const navigate = useNavigate();
 
-  const token = sessionStorage.getItem("token");
+const adminToken =
+  sessionStorage.getItem("adminToken") ||
+  localStorage.getItem("adminToken");
+
+const recruiterToken =
+  sessionStorage.getItem("token") ||
+  localStorage.getItem("token");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,40 +37,68 @@ export default function CreateJob() {
     }
   }, [notification]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (!token) {
-        setNotification({ message: "Please login first!", type: "error" });
-        return navigate("/login");
-      }
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      // Create job with backend using logged-in recruiter's email
-      const res = await axios.post(
-        "http://localhost:5000/api/job/company",
-        formData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      if (res.data.success) {
-        setNotification({ message: "Job created successfully!", type: "success" });
-
-        // Reset form
-        setFormData({
-          logo: "",
-          title: "",
-          level: "",
-          companyName: "",
-          location: "",
-          category: "",
-          description: "",
-        });
-      }
-    } catch (err) {
-      console.error("Error creating job:", err.response?.data || err);
-      setNotification({ message: "Failed to create job.", type: "error" });
+  try {
+    // ❌ No one logged in
+    if (!adminToken && !recruiterToken) {
+      setNotification({
+        message: "Please login as Admin or Recruiter!",
+        type: "error",
+      });
+      return;
     }
-  };
+
+    let apiUrl = "";
+    let authToken = "";
+    let payload = { ...formData };
+
+    // ✅ ADMIN creating job
+    if (adminToken) {
+      apiUrl = "http://localhost:5000/api/admin/jobs";
+      authToken = adminToken;
+      payload.createdBy = "admin";
+    }
+
+    // ✅ RECRUITER creating job
+    else if (recruiterToken) {
+      apiUrl = "http://localhost:5000/api/job/company";
+      authToken = recruiterToken;
+    }
+
+    const res = await axios.post(apiUrl, payload, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    setNotification({
+      message: "Job created successfully!",
+      type: "success",
+    });
+
+    setFormData({
+      logo: "",
+      title: "",
+      level: "",
+      companyName: "",
+      location: "",
+      category: "",
+      description: "",
+    });
+  } catch (error) {
+    console.error(error);
+    setNotification({
+      message:
+        error.response?.data?.message || "Failed to create job",
+      type: "error",
+    });
+  }
+};
+
+
 
   const inputStyle =
     "w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition placeholder-gray-400 text-gray-800";
