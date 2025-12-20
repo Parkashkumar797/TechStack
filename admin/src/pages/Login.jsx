@@ -1,8 +1,8 @@
 import axios from 'axios'
-import React, { useState, useContext } from 'react' // ✅ 1. Import useContext
+import React, { useState, useContext } from 'react' 
 import { Link, useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
-import { AppContext } from '../context/Appcontext' // ✅ 2. Import the context
+import { AppContext } from '../context/Appcontext' 
 import { toast } from 'react-toastify';
 function Login() {
   const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ toast.success("Logged in Successfully")
       setFormData({ email: "", password: "" })
     } catch (error) {
       console.error("Login failed:", error)
-      alert("Login failed. Please check your credentials.")
+      toast.error("Login failed. Please check your credentials.")
     }
   }
 
