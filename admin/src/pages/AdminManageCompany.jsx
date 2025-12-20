@@ -26,8 +26,8 @@ export default function AdminManageCompany() {
   // Filter companies for search
   const filteredCompanies = Array.isArray(companies)
     ? companies.filter((company) =>
-      company.companyName.toLowerCase().includes(search.toLowerCase())
-    )
+        company.companyName.toLowerCase().includes(search.toLowerCase())
+      )
     : [];
 
   // Edit button handler
@@ -109,12 +109,12 @@ export default function AdminManageCompany() {
                       : "N/A"}
                   </td>
                   <td className="py-3 px-4 flex justify-center gap-2">
-                    <button
-                      onClick={() => navigate(`/admin/company/edit/${company._id}`)}
-                      className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                    >
-                      Edit
-                    </button>
+ <button
+  onClick={() => navigate(`/admin/company/edit/${company._id}`)}
+  className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+>
+  Edit
+</button>
 
                     <button
                       onClick={() => handleDelete(company._id)}

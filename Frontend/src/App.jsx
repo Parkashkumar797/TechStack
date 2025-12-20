@@ -25,7 +25,6 @@ import CompanyProfile from './company/CompanyProfile';
 import MyJobs from './company/MyJobs';
 import CompanyDashboard from './company/CompanyDashboard';
 import ProtectedRoute from './Pages/ProtectedRoute';
-import { ToastContainer, toast } from 'react-toastify';
 function App() {
   return (
     <>
@@ -57,7 +56,6 @@ function App() {
             <Route path="/company/profile" element={<CompanyProfile />} />
           </Route>
       </Routes>
-      <ToastContainer />
     </>
   )
 }

@@ -5,7 +5,7 @@ import {
   deleteJob,
   getJobById,
   registeredCompany, // create job
-  getJobsByCompany //  New controller to get jobs created by specific company
+  getJobsByCompany // ✅ New controller to get jobs created by specific company
 } from "../controllers/jobController.js";
 
 import userAuth from "../middleware/authMiddleware.js"; // ✅ add JWT protection
@@ -13,8 +13,8 @@ import userAuth from "../middleware/authMiddleware.js"; // ✅ add JWT protectio
 const jobRoute = express.Router();
 
 // Public routes
-jobRoute.get("/jobs", company); //  get all jobs
-jobRoute.get("/:id", getJobById); // get single job
+jobRoute.get("/jobs", company); // ✅ get all jobs
+jobRoute.get("/:id", getJobById); // ✅ get single job
 
 // Company routes (protected)
 jobRoute.post("/company", userAuth, registeredCompany); // ✅ create job

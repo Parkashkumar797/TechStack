@@ -13,8 +13,8 @@ export default function Header() {
   // ✅ No more local state or useEffect needed for login status!
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    logout(); // ✅ This now comes from the context
+    navigate("/login"); // redirect to login page
   };
 
   return (

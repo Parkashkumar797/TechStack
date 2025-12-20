@@ -18,7 +18,7 @@ function Popularjob() {
       title: "Applitocor",
       company: "Microsoft",
       logo: assets.microsoft_logo,
-      salary: "1,0580/mo/ta",
+      salary: "$1,0580/mo/ta",
       type: "Full-Time",
     },
     {
